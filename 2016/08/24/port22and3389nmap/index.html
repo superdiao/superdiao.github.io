@@ -84,12 +84,40 @@
 
 
 
-<meta property="og:type" content="website">
+<meta name="description" content="Nmap自动扫描shell刚写了Nmap的使用和原理，发现一步一步操作很是麻烦，便写了一个Nmap自动扫描22端口和3389端口的shell。分享出来给大家看下，如果有什么改进的地方欢迎指出。
+
+
+#做判断，如果输入网段则直接进行扫描如果不输入则弹出提示框输入ip地址
+para1=$#
+para2=$1
+if [ $para1 -eq 0 ]; then
+echo “请输入你的位置变量”
+else">
+<meta property="og:type" content="article">
 <meta property="og:title" content="superdiao">
-<meta property="og:url" content="http://yoursite.com/tags/github/index.html">
+<meta property="og:url" content="http://yoursite.com/2016/08/24/port22and3389nmap/index.html">
 <meta property="og:site_name" content="superdiao">
+<meta property="og:description" content="Nmap自动扫描shell刚写了Nmap的使用和原理，发现一步一步操作很是麻烦，便写了一个Nmap自动扫描22端口和3389端口的shell。分享出来给大家看下，如果有什么改进的地方欢迎指出。
+
+
+#做判断，如果输入网段则直接进行扫描如果不输入则弹出提示框输入ip地址
+para1=$#
+para2=$1
+if [ $para1 -eq 0 ]; then
+echo “请输入你的位置变量”
+else">
+<meta property="og:updated_time" content="2016-08-23T16:57:00.419Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="superdiao">
+<meta name="twitter:description" content="Nmap自动扫描shell刚写了Nmap的使用和原理，发现一步一步操作很是麻烦，便写了一个Nmap自动扫描22端口和3389端口的shell。分享出来给大家看下，如果有什么改进的地方欢迎指出。
+
+
+#做判断，如果输入网段则直接进行扫描如果不输入则弹出提示框输入ip地址
+para1=$#
+para2=$1
+if [ $para1 -eq 0 ]; then
+echo “请输入你的位置变量”
+else">
 
 
 
@@ -107,7 +135,7 @@
   };
 </script>
 
-  <title> Tag: github | superdiao </title>
+  <title>  | superdiao </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="">
@@ -128,7 +156,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -206,46 +234,144 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        github
-        <small>Tag</small>
-      </h2>
-    </div>
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-08-24T00:57:00+08:00" content="2016-08-24">
+              2016-08-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
       
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
+        <h1 id="Nmap自动扫描shell"><a href="#Nmap自动扫描shell" class="headerlink" title="Nmap自动扫描shell"></a>Nmap自动扫描shell</h1><p>刚写了Nmap的使用和原理，发现一步一步操作很是麻烦，便写了一个Nmap自动扫描22端口和3389端口的shell。分享出来给大家看下，如果有什么改进的地方欢迎指出。</p>
+<blockquote>
+<ol>
+<li>#做判断，如果输入网段则直接进行扫描如果不输入则弹出提示框输入ip地址</li>
+<li>para1=$#</li>
+<li>para2=$1</li>
+<li>if [ $para1 -eq 0 ]; then</li>
+<li>echo “请输入你的位置变量”</li>
+<li>else</li>
+<li>#扫面网段中的存活主机，存放到chip.txt中</li>
+<li>nmap -sn $para2&gt;chip.txt</li>
+<li>#将IP地址取出到onlyip.txt</li>
+<li>cat chip.txt | grep for | awk ‘{print $5}’&gt;onlyip.txt</li>
+<li>#通过列表扫描chip.txt中的IP地址的22端口和3389端口，并将其存放到dkip.txt中</li>
+<li>nmap -p22,3389 -iL onlyip.txt&gt;dkip.txt</li>
+<li>#找出dkip.txt中的开启22端口的IP地址存放到22ip.txt中</li>
+<li>cat dkip.txt  | awk ‘/^Nmap/{T=$0;next;}{print T”\t”$0;}’ | grep open | grep ssh | awk ‘{print $5}’&gt;22ip.txt</li>
+<li>#找出dkip.txt中的开启3389端口的IP地址存放到3389.txt中</li>
+<li>cat dkip.txt  | awk ‘/^Nmap/{T=$0;next;}{print T”\t”$0;}’ | grep open | grep 3389 | awk ‘{print $5}’&gt;3389ip.txt</li>
+<li>#输出22ip.txt和3389ip.txt中各有多少IP地址</li>
+<li>sshnu=<code>sed -n &quot;$=&quot; 22ip.txt</code></li>
+<li>winnu=<code>sed -n &quot;$=&quot; 3389ip.txt</code></li>
+<li>echo “22 open ip number $sshnu”</li>
+<li>echo “3389 open ip number $winnu”</li>
+<li>rm chip.txt</li>
+<li>rm onlyip.txt</li>
+<li>rm dkip.txt</li>
+<li>fi</li>
+</ol>
+</blockquote>
 
-      <h1 class="post-title">
+      
+    </div>
+
+    <div>
+      
         
-            <a class="post-title-link" href="/2014/08/22/untitled-1471872474620/" itemprop="url">
-              
-                <span itemprop="name">使用Hexo搭建个人博客</span>
-              
-            </a>
+      
+    </div>
+
+    <div>
+      
         
-      </h1>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2014-08-22T21:27:54+08:00"
-              content="2014-08-22" >
-          08-22
-        </time>
-      </div>
+      
+    </div>
 
-    </header>
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/11/23/nmap/" rel="next" title="Nmap 原理简单介绍和应用">
+                <i class="fa fa-chevron-left"></i> Nmap 原理简单介绍和应用
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
-    
-  </div>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -253,6 +379,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -272,8 +402,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -292,7 +431,7 @@
           
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">Kategorien</span>
               
             </div>
@@ -301,7 +440,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">Tags</span>
               </a>
             </div>
@@ -323,6 +462,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Nmap自动扫描shell"><span class="nav-number">1.</span> <span class="nav-text">Nmap自动扫描shell</span></a></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -419,6 +569,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
