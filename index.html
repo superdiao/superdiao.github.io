@@ -102,7 +102,7 @@
     motion: true,
     duoshuo: {
       userId: 0,
-      author: 'Author'
+      author: '博主'
     }
   };
 </script>
@@ -110,7 +110,7 @@
   <title> superdiao </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
 
@@ -167,7 +167,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            首页
           </a>
         </li>
       
@@ -177,7 +177,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            归档
           </a>
         </li>
       
@@ -187,7 +187,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            Tags
+            标签
           </a>
         </li>
       
@@ -243,7 +243,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">发表于</span>
             <time itemprop="dateCreated" datetime="2014-11-23T23:36:20+08:00" content="2014-11-23">
               2014-11-23
             </time>
@@ -255,7 +255,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/Nmap/" itemprop="url" rel="index">
@@ -265,7 +265,7 @@
 
                 
                 
-                  . 
+                  ， 
                 
 
               
@@ -277,7 +277,7 @@
 
                 
                 
-                  . 
+                  ， 
                 
 
               
@@ -316,39 +316,12 @@
 
       
         
-          
-            <h1 id="Nmap自动扫描shell"><a href="#Nmap自动扫描shell" class="headerlink" title="Nmap自动扫描shell"></a>Nmap自动扫描shell</h1><p>刚写了Nmap的使用和原理，发现一步一步操作很是麻烦，便写了一个Nmap自动扫描22端口和3389端口的shell。分享出来给大家看下，如果有什么改进的地方欢迎指出。</p>
-<blockquote>
-<ol>
-<li>#做判断，如果输入网段则直接进行扫描如果不输入则弹出提示框输入ip地址</li>
-<li>para1=$#</li>
-<li>para2=$1</li>
-<li>if [ $para1 -eq 0 ]; then</li>
-<li>echo “请输入你的位置变量”</li>
-<li>else</li>
-<li>#扫面网段中的存活主机，存放到chip.txt中</li>
-<li>nmap -sn $para2&gt;chip.txt</li>
-<li>#将IP地址取出到onlyip.txt</li>
-<li>cat chip.txt | grep for | awk ‘{print $5}’&gt;onlyip.txt</li>
-<li>#通过列表扫描chip.txt中的IP地址的22端口和3389端口，并将其存放到dkip.txt中</li>
-<li>nmap -p22,3389 -iL onlyip.txt&gt;dkip.txt</li>
-<li>#找出dkip.txt中的开启22端口的IP地址存放到22ip.txt中</li>
-<li>cat dkip.txt  | awk ‘/^Nmap/{T=$0;next;}{print T”\t”$0;}’ | grep open | grep ssh | awk ‘{print $5}’&gt;22ip.txt</li>
-<li>#找出dkip.txt中的开启3389端口的IP地址存放到3389.txt中</li>
-<li>cat dkip.txt  | awk ‘/^Nmap/{T=$0;next;}{print T”\t”$0;}’ | grep open | grep 3389 | awk ‘{print $5}’&gt;3389ip.txt</li>
-<li>#输出22ip.txt和3389ip.txt中各有多少IP地址</li>
-<li>sshnu=<code>sed -n &quot;$=&quot; 22ip.txt</code></li>
-<li>winnu=<code>sed -n &quot;$=&quot; 3389ip.txt</code></li>
-<li>echo “22 open ip number $sshnu”</li>
-<li>echo “3389 open ip number $winnu”</li>
-<li>rm chip.txt</li>
-<li>rm onlyip.txt</li>
-<li>rm dkip.txt</li>
-<li>fi</li>
-</ol>
-</blockquote>
-
-          
+          <h1 id="Nmap自动扫描shell"><a href="#Nmap自动扫描shell" class="headerlink" title="Nmap自动扫描shell"></a>Nmap自动扫描shell</h1><p>刚写了Nmap的使用和原理，发现一步一步操作很是麻烦，便写了一个Nmap自动扫描22端口和3389端口的shell。分享出来给大家看下，如果有什么改进的地方欢迎指出。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/11/23/port22and3389nmap/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -409,7 +382,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">发表于</span>
             <time itemprop="dateCreated" datetime="2014-11-23T22:57:45+08:00" content="2014-11-23">
               2014-11-23
             </time>
@@ -421,7 +394,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/Nmap/" itemprop="url" rel="index">
@@ -431,7 +404,7 @@
 
                 
                 
-                  . 
+                  ， 
                 
 
               
@@ -485,7 +458,7 @@
 </ol>
           <div class="post-more-link text-center">
             <a class="btn" href="/2014/11/23/nmap/#more" rel="contents">
-              Weiterlesen &raquo;
+              阅读全文 &raquo;
             </a>
           </div>
         
@@ -548,7 +521,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">发表于</span>
             <time itemprop="dateCreated" datetime="2014-08-22T21:27:54+08:00" content="2014-08-22">
               2014-08-22
             </time>
@@ -560,7 +533,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/hexo/" itemprop="url" rel="index">
@@ -602,7 +575,7 @@
 <h2 id="安装Node-js"><a href="#安装Node-js" class="headerlink" title="安装Node.js"></a>安装Node.js</h2><p>下载安装Node.js。安装完之后建议重启下。如果不重启后面使用hexo的时候有可能会遇提示无效的命令。</p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2014/08/22/untitled-1471872474620/#more" rel="contents">
-              Weiterlesen &raquo;
+              阅读全文 &raquo;
             </a>
           </div>
         
@@ -673,7 +646,7 @@
           <div class="site-state-item site-state-posts">
             <a href="/archives">
               <span class="site-state-item-count">3</span>
-              <span class="site-state-item-name">Artikel</span>
+              <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
@@ -681,7 +654,7 @@
             <div class="site-state-item site-state-categories">
               
                 <span class="site-state-item-count">4</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-name">分类</span>
               
             </div>
           
@@ -690,7 +663,7 @@
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">6</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-name">标签</span>
               </a>
             </div>
           
@@ -734,11 +707,11 @@
 </div>
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="http://hexo.io">Hexo</a>
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
-  Theme -
+  主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Muse
   </a>
