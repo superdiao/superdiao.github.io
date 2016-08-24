@@ -90,7 +90,7 @@
 <meta property="og:url" content="http://yoursite.com/2014/11/23/port22and3389nmap/index.html">
 <meta property="og:site_name" content="superX">
 <meta property="og:description" content="Nmap自动扫描shell刚写了Nmap的使用和原理，发现一步一步操作很是麻烦，便写了一个Nmap自动扫描22端口和3389端口的shell。分享出来给大家看下，如果有什么改进的地方欢迎指出。">
-<meta property="og:updated_time" content="2016-08-24T14:13:15.953Z">
+<meta property="og:updated_time" content="2016-08-24T16:07:59.240Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nmap自动扫描shell">
 <meta name="twitter:description" content="Nmap自动扫描shell刚写了Nmap的使用和原理，发现一步一步操作很是麻烦，便写了一个Nmap自动扫描22端口和3389端口的shell。分享出来给大家看下，如果有什么改进的地方欢迎指出。">
@@ -257,32 +257,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Nmap/" itemprop="url" rel="index">
-                    <span itemprop="name">Nmap</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Nmap/网络信息收集与扫描/" itemprop="url" rel="index">
+                  <a href="/categories/网络信息收集与扫描/" itemprop="url" rel="index">
                     <span itemprop="name">网络信息收集与扫描</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Nmap/网络信息收集与扫描/端口扫描/" itemprop="url" rel="index">
-                    <span itemprop="name">端口扫描</span>
                   </a>
                 </span>
 
@@ -329,19 +305,37 @@
 <li>#将IP地址取出到onlyip.txt</li>
 <li>cat chip.txt | grep for | awk ‘{print $5}’&gt;onlyip.txt</li>
 <li>#通过列表扫描chip.txt中的IP地址的22端口和3389端口，并将其存放到dkip.txt中</li>
-<li>nmap -p22,3389 -iL onlyip.txt&gt;dkip.txt</li>
+<li>nmap -p22,3389,3306,445,20,21,23 -iL onlyip.txt&gt;dkip.txt</li>
 <li>#找出dkip.txt中的开启22端口的IP地址存放到22ip.txt中</li>
 <li>cat dkip.txt  | awk ‘/^Nmap/{T=$0;next;}{print T”\t”$0;}’ | grep open | grep ssh | awk ‘{print $5}’&gt;22ip.txt</li>
 <li>#找出dkip.txt中的开启3389端口的IP地址存放到3389.txt中</li>
 <li>cat dkip.txt  | awk ‘/^Nmap/{T=$0;next;}{print T”\t”$0;}’ | grep open | grep 3389 | awk ‘{print $5}’&gt;3389ip.txt</li>
+<li>#找出dkip.txt中的开启3306端口的IP地址存放到3306.txt中</li>
+<li>cat dkip.txt  | awk ‘/^Nmap/{T=$0;next;}{print T”\t”$0;}’ | grep open | grep 3306 | awk ‘{print $5}’&gt;3306ip.txt</li>
+<li>#找出dkip.txt中的开启445端口的IP地址存放到445.txt中</li>
+<li>cat dkip.txt  | awk ‘/^Nmap/{T=$0;next;}{print T”\t”$0;}’ | grep open | grep 445 | awk ‘{print $5}’&gt;445ip.txt</li>
+<li>#找出dkip.txt中的开启23端口的IP地址存放到23.txt中</li>
+<li>cat dkip.txt  | awk ‘/^Nmap/{T=$0;next;}{print T”\t”$0;}’ | grep open | grep telnet | awk ‘{print $5}’&gt;23ip.txt</li>
+<li>#找出dkip.txt中的开启20端口的IP地址存放到20.txt中</li>
+<li>cat dkip.txt  | awk ‘/^Nmap/{T=$0;next;}{print T”\t”$0;}’ | grep open | grep ftp-date | awk ‘{print $5}’&gt;20ip.txt</li>
+<li>#找出dkip.txt中的开启21端口的IP地址存放到21.txt中</li>
+<li>cat dkip.txt  | awk ‘/^Nmap/{T=$0;next;}{print T”\t”$0;}’ | grep open | grep ftp | awk ‘{print $5}’&gt;21ip.txt</li>
 <li>#输出22ip.txt和3389ip.txt中各有多少IP地址</li>
 <li>sshnu=<code>sed -n &quot;$=&quot; 22ip.txt</code></li>
 <li>winnu=<code>sed -n &quot;$=&quot; 3389ip.txt</code></li>
+<li>mysqlnu=<code>sed -n &quot;$=&quot; 3306ip.txt</code></li>
+<li>wingxnu=<code>sed -n &quot;$=&quot; 445ip.txt</code></li>
+<li>telnetnu=<code>sed -n &quot;$=&quot; 23ip.txt</code></li>
+<li>ftpnu=<code>sed -n &quot;$=&quot; 20ip.txt</code></li>
+<li>ftptnu=<code>sed -n &quot;$=&quot; 21ip.txt</code></li>
+<li></li>
 <li>echo “22 open ip number $sshnu”</li>
 <li>echo “3389 open ip number $winnu”</li>
-<li>rm chip.txt</li>
-<li>rm onlyip.txt</li>
-<li>rm dkip.txt</li>
+<li>echo “3306 open ip number $mysqlnu”</li>
+<li>echo “445 open ip number $wingxnu”</li>
+<li>echo “23 open ip number $telnetnu”</li>
+<li>echo “20 open ip number $ftpnu”</li>
+<li>echo “21 open ip number $ftptnu”</li>
 <li>fi</li>
 </ol>
 </blockquote>
@@ -459,7 +453,7 @@
           
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
