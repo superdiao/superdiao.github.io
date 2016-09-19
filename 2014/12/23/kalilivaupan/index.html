@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="hexo,git,github," />
+  <meta name="keywords" content="kali," />
 
 
 
@@ -84,22 +84,27 @@
 
 
 
-<meta name="description" content="使用Hexo搭建个人博客前言之前有用过别的博客写过，不过有的要审核有的界面不喜欢，也没有什么特色，总是提不起兴趣，后来接触了github，感觉到了写博客的动力，就自己搭建了一个个人博客。因为这中间遇到了很多问题，所以特此编写了一个教程，方便初学者使用，少走弯路。
-正文此教程适用于windows，不适用mac和linux，之后有可能会写linux的教程，在此不做确定。
-安装Node.js下载安装No">
+<meta name="description" content="KALI LIVE安装到U盘前言本方法不适用于uefi启动的电脑，uefi引导系统使用U盘kali的方法暂时还没解决。如果有人知道麻烦告诉我下。。。
+因为自己电脑现在就一个盘，而且只有128g，没法做成双系统，而且非常不够用，所以想到了用U盘制作kali。。。kali自带的kali live安装到U盘后不能保存修改内容，于是便打算试试制作一个可以保存修改内容的kali live，网上找了好多办法最">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用Hexo搭建个人博客">
-<meta property="og:url" content="http://yoursite.com/2014/08/22/untitled-1471872474620/index.html">
+<meta property="og:title" content="U盘制作kali live">
+<meta property="og:url" content="http://yoursite.com/2014/12/23/kalilivaupan/index.html">
 <meta property="og:site_name" content="superX">
-<meta property="og:description" content="使用Hexo搭建个人博客前言之前有用过别的博客写过，不过有的要审核有的界面不喜欢，也没有什么特色，总是提不起兴趣，后来接触了github，感觉到了写博客的动力，就自己搭建了一个个人博客。因为这中间遇到了很多问题，所以特此编写了一个教程，方便初学者使用，少走弯路。
-正文此教程适用于windows，不适用mac和linux，之后有可能会写linux的教程，在此不做确定。
-安装Node.js下载安装No">
-<meta property="og:updated_time" content="2016-08-24T16:08:20.692Z">
+<meta property="og:description" content="KALI LIVE安装到U盘前言本方法不适用于uefi启动的电脑，uefi引导系统使用U盘kali的方法暂时还没解决。如果有人知道麻烦告诉我下。。。
+因为自己电脑现在就一个盘，而且只有128g，没法做成双系统，而且非常不够用，所以想到了用U盘制作kali。。。kali自带的kali live安装到U盘后不能保存修改内容，于是便打算试试制作一个可以保存修改内容的kali live，网上找了好多办法最">
+<meta property="og:image" content="http://i.imgur.com/I4psOoE.png">
+<meta property="og:image" content="http://i.imgur.com/3ND98jI.png">
+<meta property="og:image" content="http://i.imgur.com/zmNce1x.png">
+<meta property="og:image" content="http://i.imgur.com/k431emx.png">
+<meta property="og:image" content="http://i.imgur.com/OPeerJP.png">
+<meta property="og:image" content="http://i.imgur.com/a8mlOkm.png">
+<meta property="og:image" content="http://i.imgur.com/Zbb0I8G.png">
+<meta property="og:updated_time" content="2016-09-19T16:51:55.971Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用Hexo搭建个人博客">
-<meta name="twitter:description" content="使用Hexo搭建个人博客前言之前有用过别的博客写过，不过有的要审核有的界面不喜欢，也没有什么特色，总是提不起兴趣，后来接触了github，感觉到了写博客的动力，就自己搭建了一个个人博客。因为这中间遇到了很多问题，所以特此编写了一个教程，方便初学者使用，少走弯路。
-正文此教程适用于windows，不适用mac和linux，之后有可能会写linux的教程，在此不做确定。
-安装Node.js下载安装No">
+<meta name="twitter:title" content="U盘制作kali live">
+<meta name="twitter:description" content="KALI LIVE安装到U盘前言本方法不适用于uefi启动的电脑，uefi引导系统使用U盘kali的方法暂时还没解决。如果有人知道麻烦告诉我下。。。
+因为自己电脑现在就一个盘，而且只有128g，没法做成双系统，而且非常不够用，所以想到了用U盘制作kali。。。kali自带的kali live安装到U盘后不能保存修改内容，于是便打算试试制作一个可以保存修改内容的kali live，网上找了好多办法最">
+<meta name="twitter:image" content="http://i.imgur.com/I4psOoE.png">
 
 
 
@@ -117,7 +122,7 @@
   };
 </script>
 
-  <title> 使用Hexo搭建个人博客 | superX </title>
+  <title> U盘制作kali live | superX </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -237,7 +242,7 @@
             
             
               
-                使用Hexo搭建个人博客
+                U盘制作kali live
               
             
           </h1>
@@ -249,8 +254,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-08-22T21:27:54+08:00" content="2014-08-22">
-              2014-08-22
+            <time itemprop="dateCreated" datetime="2014-12-23T00:51:20+08:00" content="2014-12-23">
+              2014-12-23
             </time>
           </span>
 
@@ -263,8 +268,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">hexo</span>
+                  <a href="/categories/kali/" itemprop="url" rel="index">
+                    <span itemprop="name">kali</span>
                   </a>
                 </span>
 
@@ -283,7 +288,7 @@
 
           
           
-             <span id="/2014/08/22/untitled-1471872474620/" class="leancloud_visitors" data-flag-title="使用Hexo搭建个人博客">
+             <span id="/2014/12/23/kalilivaupan/" class="leancloud_visitors" data-flag-title="U盘制作kali live">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -305,81 +310,21 @@
       
 
       
-        <h1 id="使用Hexo搭建个人博客"><a href="#使用Hexo搭建个人博客" class="headerlink" title="使用Hexo搭建个人博客"></a>使用Hexo搭建个人博客</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前有用过别的博客写过，不过有的要审核有的界面不喜欢，也没有什么特色，总是提不起兴趣，后来接触了github，感觉到了写博客的动力，就自己搭建了一个个人博客。因为这中间遇到了很多问题，所以特此编写了一个教程，方便初学者使用，少走弯路。</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>此教程适用于windows，不适用mac和linux，之后有可能会写linux的教程，在此不做确定。</p>
-<h2 id="安装Node-js"><a href="#安装Node-js" class="headerlink" title="安装Node.js"></a>安装Node.js</h2><p>下载安装Node.js。安装完之后建议重启下。如果不重启后面使用hexo的时候有可能会遇提示无效的命令。</p>
-<a id="more"></a>
-<h2 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h2><p>下载并安装msysgit。建议从官网下载，如果慢的话建议用迅雷下载，网速好应该会很快。<br>下载地址：<a href="https://git-for-windows.github.io/" title="官网下载地址" target="_blank" rel="external">https://git-for-windows.github.io/</a></p>
-<h2 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h2><p>安装之前介绍几个hexo常用命令，#后面是注释。这几个在之后的使用中会经常用到，建议先学习一下</p>
-<blockquote>
-<ol>
-<li>$ hexo g #完整命令为hexo generate,用于生成静态文件</li>
-<li>$ hexo s #完整命令为hexo server,用于启动服务器，主要用来本地预览</li>
-<li>$ hexo d #完整命令为hexo deploy,用于将本地文件发布到github上</li>
-<li>$ hexo n #完整命令为hexo new,用于新建一篇文章</li>
-</ol>
-</blockquote>
-<p>装完git后在桌面任意地方鼠标点击右键会看到有Git Bash和Git GUI。在任意地方鼠标右键后点击Git Bash即可弹出终端，在终端中使用下面命令安装</p>
-<blockquote>
-<ol>
-<li>$ npm install hexo-cli -g</li>
-</ol>
-</blockquote>
-<p>如果之后在使用的过程中，遇到以下的错误</p>
-<blockquote>
-<ol>
-<li>ERROR Deployer not found : github</li>
-</ol>
-</blockquote>
-<p>则运行以下命令,或者你直接先运行这个命令更好。如果不运行之后还可能会报错。</p>
-<blockquote>
-<ol>
-<li>$ npm install hexo-deployer-git –save</li>
-<li>$ hexo g</li>
-<li>$ hexo d</li>
-</ol>
-</blockquote>
-<p>接下来创建放置博客文件的地方：hexo文件夹。创建在自己习惯使用的地方，名字可以随意起，只要自己记得住就好。我方便记直接使用了hexo。<br>比如我的文件夹位置为：<strong>c:\hexo</strong>。创建文件夹之后进入该文件夹，右键选择Git Bash进入终端，执行以下命令：</p>
-<blockquote>
-<ol>
-<li>$ hexo init</li>
-</ol>
-</blockquote>
-<p>安装依赖包</p>
-<blockquote>
-<ol>
-<li>$ npm install</li>
-</ol>
-</blockquote>
-<p>在E:\hexo内执行以下命令：</p>
-<blockquote>
-<ol>
-<li>$ hexo g</li>
-<li>$ hexo s</li>
-</ol>
-</blockquote>
-<p>然后用浏览器访问<a href="http://localhost:4000/" title="hexo端口" target="_blank" rel="external">http://localhost:4000/</a>，这个时候你应该可以看到一个博客了，不过这个博客是自带的，存在本地，别人是看不到的。hexo3.0使用的默认主题是landscape。这也正是hexo的强大之处，可以本地预览，之后再上传到github上即可。</p>
-<h2 id="注册Github"><a href="#注册Github" class="headerlink" title="注册Github"></a>注册Github</h2><p>上github注册账号<br><a href="https://github.com/" title="github官网" target="_blank" rel="external">https://github.com/</a></p>
-<h2 id="创建repository"><a href="#创建repository" class="headerlink" title="创建repository"></a>创建repository</h2><p>repository相当于一个仓库，用来存放你的代码。而且可以提取很久之前修改过的代码，非常强大，而且是免费。这也正是github 的强大之处。首先登陆github，进入个人页面。点击New repository新建一个仓库。如果没有看到New repository 的话进入repository后即可看到。</p>
-<p>创建时，只需要填写Repository name即可，当然这个名字的格式必须为yourname.github.io，例如我的为superdiao.github.io</p>
-<h2 id="部署本地文件到github"><a href="#部署本地文件到github" class="headerlink" title="部署本地文件到github"></a>部署本地文件到github</h2><p>repository创建后，就是要把博客放到Github上了，编辑C:\hexo文件下的_config.yml文件。建议使用代码编辑器打开。</p>
-<p>在_config.yml最下方，添加如下配置(命令中的第一个superdiao为Github的用户名,第二个superdiao为之前New的Repository的名字,记得改成自己的。另外记得一点，hexo的配置文件中任何’:’后面都是带一个空格的),如果配置以下命令出现ERROR Deployer not found : github，则参考上文的解决方法。</p>
-<blockquote>
-<ol>
-<li>deploy: </li>
-<li>type: git</li>
-<li>repository: <a href="http://github.com/superdiao/superdiao.github.io.git" target="_blank" rel="external">http://github.com/superdiao/superdiao.github.io.git</a></li>
-<li>branch: master</li>
-</ol>
-</blockquote>
-<p>配置好_config.yml并保存后，执行以下命令部署到Github上。</p>
-<blockquote>
-<ol>
-<li>$ hexo g</li>
-<li>$ hexo d</li>
-</ol>
-</blockquote>
-<p>执行上面的第二个命令，可能会要你输入用户名和密码，输入github的帐号密码即可。<br>如果_config.yml中的repository: <a href="http://github.com/superdiao/superdiao.github.io.git可以打开的话，在浏览器中访问superdiao.github.io" target="_blank" rel="external">http://github.com/superdiao/superdiao.github.io.git可以打开的话，在浏览器中访问superdiao.github.io</a> 就能看到自己的博客了。</p>
+        <h1 id="KALI-LIVE安装到U盘"><a href="#KALI-LIVE安装到U盘" class="headerlink" title="KALI LIVE安装到U盘"></a>KALI LIVE安装到U盘</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本方法不适用于uefi启动的电脑，uefi引导系统使用U盘kali的方法暂时还没解决。如果有人知道麻烦告诉我下。。。</p>
+<p>因为自己电脑现在就一个盘，而且只有128g，没法做成双系统，而且非常不够用，所以想到了用U盘制作kali。。。kali自带的kali live安装到U盘后不能保存修改内容，于是便打算试试制作一个可以保存修改内容的kali live，网上找了好多办法最后终于成功了，分享下。。。</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>现在买U盘大多是16g以上的，用win32-disk-image做完liveU盘后，原来的U盘内容都会格式化掉！而且整个U盘里就只有kali了，非常浪费U盘空间。此方法可以解决上面的这些弊端。</p>
+<h3 id="步骤如下："><a href="#步骤如下：" class="headerlink" title="步骤如下："></a>步骤如下：</h3><p>一、用win32-disk-image把ISO文件刻到U盘上，引导启动后剩余的空间是不可写的（如同光盘）。<br><img src="http://i.imgur.com/I4psOoE.png" alt=""></p>
+<p>二、用ghost来备份U盘，方便后面再用ghost还原U盘到分区</p>
+<p>选 Local→Partition→To Image 菜单，弹出硬盘选择窗口，开始分区备份操作。点击该窗口中白色的硬盘信息条，选择硬盘，进入窗口，选择要操作的分区。 在弹出的窗口中选择备份储存的目录路径并输入备份文件名称，注意备份文件的名称带有 GHO 的后缀名。 接下来，程序会询问是否压缩备份数据，并给出3个选择：No 表示不压缩，Fast表示压缩比例小而执行备份速度较快，High 就是压缩比例高但执行备份速度相当慢。最后选择 Yes 按钮即开始进行分区硬盘的备份。<br><img src="http://i.imgur.com/3ND98jI.png" alt=""></p>
+<p>三、用diskgeius给U盘分区<br>分成三个区，都是主分区，第一个区格式化成FAT32，第三个分区大小要比你ghost备份下来的文件大一点（如果用high压缩ghost文件是2G，如果用fast压缩ghost文件是3G，我设置成3G，太小了待会还原的时候这个分区item是灰色的），第二个区要分600M以上，用来储存在kali live persistence里面安装的或修改的东西（如果16gU盘建议分2G到3G）。分完后用ghost把备份下来的文件还原到第三个分区。<br><img src="http://i.imgur.com/zmNce1x.png" alt=""><br>还原ghost的办法：Local→Partition→From Image<br><img src="http://i.imgur.com/k431emx.png" alt=""></p>
+<p>四、用bootice修改U盘<br>用bootice修改U盘的主引导记录成grub4dos，然后把工具里面的grldr_menu里面两个文件放在第一个分区根下。<br><img src="http://i.imgur.com/OPeerJP.png" alt=""><br><img src="http://i.imgur.com/a8mlOkm.png" alt=""><br><img src="http://i.imgur.com/Zbb0I8G.png" alt=""><br>五、启动<br>进入 bios设置U盘启动，保存重启后会看到一个启动选择画面，选第一个。进入桌面后 打开命令行，输入gparted，然后在跳出的窗口程序的右上角选择对应你U盘容量的磁盘。在用这个程序把之前分的第二个区格式化成 ext4文件系统，同时把分区名(Label)改成 persistence ，同时记下分区列表里面第二个分区的分区名 例如我的是 /dev/sdb5。关掉gparted ，在命令行里输入以下命令</p>
+<pre><code>mkdir /mnt/usb
+mount  /dev/sdb5 /mnt/usb
+echo &quot;/ union&quot; &gt;&gt; /mnt/usb/persistence.conf
+umount /mnt/usb
+</code></pre><p>这样U盘安装kali就完成了，以后在启动时选择第二个进去就可以了。选择第一个的话操作之后kali不会保存任何操作数据。</p>
+<p>之后U盘第一个分区可以继续当U盘使用（不要删除之前拷入U盘的那两个文件），第二个分区是启动时使用第二个选择时的分区，里面的东西是你使用kali后保存的东西（删除后kali里面之前的操作也等于删除了），第三个分区是你的kali系统分区（二三分区插入U盘时看不到）</p>
+<h3 id="之前工具下载集合包："><a href="#之前工具下载集合包：" class="headerlink" title="之前工具下载集合包："></a>之前工具下载集合包：</h3><p>链接：<a href="http://pan.baidu.com/s/1hrPEPOo" target="_blank" rel="external">http://pan.baidu.com/s/1hrPEPOo</a> 密码：p34i</p>
 
       
     </div>
@@ -401,11 +346,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hexo/" rel="tag">#hexo</a>
-          
-            <a href="/tags/git/" rel="tag">#git</a>
-          
-            <a href="/tags/github/" rel="tag">#github</a>
+            <a href="/tags/kali/" rel="tag">#kali</a>
           
         </div>
       
@@ -414,13 +355,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2014/11/23/port22and3389nmap/" rel="next" title="Nmap自动扫描shell">
+                <i class="fa fa-chevron-left"></i> Nmap自动扫描shell
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2014/11/23/nmap/" rel="prev" title="Nmap 原理简单介绍和应用">
-                Nmap 原理简单介绍和应用 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -534,7 +475,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用Hexo搭建个人博客"><span class="nav-number">1.</span> <span class="nav-text">使用Hexo搭建个人博客</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正文"><span class="nav-number">1.2.</span> <span class="nav-text">正文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Node-js"><span class="nav-number">1.3.</span> <span class="nav-text">安装Node.js</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Git"><span class="nav-number">1.4.</span> <span class="nav-text">安装Git</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装hexo"><span class="nav-number">1.5.</span> <span class="nav-text">安装hexo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注册Github"><span class="nav-number">1.6.</span> <span class="nav-text">注册Github</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建repository"><span class="nav-number">1.7.</span> <span class="nav-text">创建repository</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署本地文件到github"><span class="nav-number">1.8.</span> <span class="nav-text">部署本地文件到github</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#KALI-LIVE安装到U盘"><span class="nav-number">1.</span> <span class="nav-text">KALI LIVE安装到U盘</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正文"><span class="nav-number">1.2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#步骤如下："><span class="nav-number">1.2.1.</span> <span class="nav-text">步骤如下：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#之前工具下载集合包："><span class="nav-number">1.2.2.</span> <span class="nav-text">之前工具下载集合包：</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
         </section>
