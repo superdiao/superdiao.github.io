@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="hexo,git,github," />
+  <meta name="keywords" content="Web踩点,Web安全," />
 
 
 
@@ -84,22 +84,22 @@
 
 
 
-<meta name="description" content="使用Hexo搭建个人博客前言之前有用过别的博客写过，不过有的要审核有的界面不喜欢，也没有什么特色，总是提不起兴趣，后来接触了github，感觉到了写博客的动力，就自己搭建了一个个人博客。因为这中间遇到了很多问题，所以特此编写了一个教程，方便初学者使用，少走弯路。
-正文此教程适用于windows，不适用mac和linux，之后有可能会写linux的教程，在此不做确定。
-安装Node.js下载安装No">
+<meta name="description" content="Web踩点一、什么是踩点对白帽子来说，在开始真正渗透之前，必须完成渗透前的信息收集，收集的第一步就是踩点。彩电就是对指定目标进行系统的网站信息收集，攻击者将尽可能多的收集目标单位的安全情况的方方面面。最后就可以得到一个独特的足迹。
+因为数据的大量泄漏加上上网的群众大都不注重自己的信息保密，导致只要想查，任何人都可以从公开渠道查到很多，其数量之多绝对会让你们大吃一惊。
+总之：成功的攻击者需要这样，他">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用Hexo搭建个人博客">
-<meta property="og:url" content="http://yoursite.com/2014/08/22/untitled-1471872474620/index.html">
+<meta property="og:title" content="Web安全之踩点思路">
+<meta property="og:url" content="http://yoursite.com/2014/12/25/Web踩点/index.html">
 <meta property="og:site_name" content="superX">
-<meta property="og:description" content="使用Hexo搭建个人博客前言之前有用过别的博客写过，不过有的要审核有的界面不喜欢，也没有什么特色，总是提不起兴趣，后来接触了github，感觉到了写博客的动力，就自己搭建了一个个人博客。因为这中间遇到了很多问题，所以特此编写了一个教程，方便初学者使用，少走弯路。
-正文此教程适用于windows，不适用mac和linux，之后有可能会写linux的教程，在此不做确定。
-安装Node.js下载安装No">
-<meta property="og:updated_time" content="2016-08-24T16:08:20.692Z">
+<meta property="og:description" content="Web踩点一、什么是踩点对白帽子来说，在开始真正渗透之前，必须完成渗透前的信息收集，收集的第一步就是踩点。彩电就是对指定目标进行系统的网站信息收集，攻击者将尽可能多的收集目标单位的安全情况的方方面面。最后就可以得到一个独特的足迹。
+因为数据的大量泄漏加上上网的群众大都不注重自己的信息保密，导致只要想查，任何人都可以从公开渠道查到很多，其数量之多绝对会让你们大吃一惊。
+总之：成功的攻击者需要这样，他">
+<meta property="og:updated_time" content="2016-09-25T10:22:48.186Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用Hexo搭建个人博客">
-<meta name="twitter:description" content="使用Hexo搭建个人博客前言之前有用过别的博客写过，不过有的要审核有的界面不喜欢，也没有什么特色，总是提不起兴趣，后来接触了github，感觉到了写博客的动力，就自己搭建了一个个人博客。因为这中间遇到了很多问题，所以特此编写了一个教程，方便初学者使用，少走弯路。
-正文此教程适用于windows，不适用mac和linux，之后有可能会写linux的教程，在此不做确定。
-安装Node.js下载安装No">
+<meta name="twitter:title" content="Web安全之踩点思路">
+<meta name="twitter:description" content="Web踩点一、什么是踩点对白帽子来说，在开始真正渗透之前，必须完成渗透前的信息收集，收集的第一步就是踩点。彩电就是对指定目标进行系统的网站信息收集，攻击者将尽可能多的收集目标单位的安全情况的方方面面。最后就可以得到一个独特的足迹。
+因为数据的大量泄漏加上上网的群众大都不注重自己的信息保密，导致只要想查，任何人都可以从公开渠道查到很多，其数量之多绝对会让你们大吃一惊。
+总之：成功的攻击者需要这样，他">
 
 
 
@@ -117,7 +117,7 @@
   };
 </script>
 
-  <title> 使用Hexo搭建个人博客 | superX </title>
+  <title> Web安全之踩点思路 | superX </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -237,7 +237,7 @@
             
             
               
-                使用Hexo搭建个人博客
+                Web安全之踩点思路
               
             
           </h1>
@@ -249,8 +249,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-08-22T21:27:54+08:00" content="2014-08-22">
-              2014-08-22
+            <time itemprop="dateCreated" datetime="2014-12-25T22:36:29+08:00" content="2014-12-25">
+              2014-12-25
             </time>
           </span>
 
@@ -263,8 +263,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">hexo</span>
+                  <a href="/categories/Web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">Web安全</span>
                   </a>
                 </span>
 
@@ -283,7 +283,7 @@
 
           
           
-             <span id="/2014/08/22/untitled-1471872474620/" class="leancloud_visitors" data-flag-title="使用Hexo搭建个人博客">
+             <span id="/2014/12/25/Web踩点/" class="leancloud_visitors" data-flag-title="Web安全之踩点思路">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -305,82 +305,69 @@
       
 
       
-        <h1 id="使用Hexo搭建个人博客"><a href="#使用Hexo搭建个人博客" class="headerlink" title="使用Hexo搭建个人博客"></a>使用Hexo搭建个人博客</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前有用过别的博客写过，不过有的要审核有的界面不喜欢，也没有什么特色，总是提不起兴趣，后来接触了github，感觉到了写博客的动力，就自己搭建了一个个人博客。因为这中间遇到了很多问题，所以特此编写了一个教程，方便初学者使用，少走弯路。</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>此教程适用于windows，不适用mac和linux，之后有可能会写linux的教程，在此不做确定。</p>
-<h2 id="安装Node-js"><a href="#安装Node-js" class="headerlink" title="安装Node.js"></a>安装Node.js</h2><p>下载安装Node.js。安装完之后建议重启下。如果不重启后面使用hexo的时候有可能会遇提示无效的命令。</p>
-<a id="more"></a>
-<h2 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h2><p>下载并安装msysgit。建议从官网下载，如果慢的话建议用迅雷下载，网速好应该会很快。<br>下载地址：<a href="https://git-for-windows.github.io/" title="官网下载地址" target="_blank" rel="external">https://git-for-windows.github.io/</a></p>
-<h2 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h2><p>安装之前介绍几个hexo常用命令，#后面是注释。这几个在之后的使用中会经常用到，建议先学习一下</p>
-<blockquote>
-<ol>
-<li>$ hexo g #完整命令为hexo generate,用于生成静态文件</li>
-<li>$ hexo s #完整命令为hexo server,用于启动服务器，主要用来本地预览</li>
-<li>$ hexo d #完整命令为hexo deploy,用于将本地文件发布到github上</li>
-<li>$ hexo n #完整命令为hexo new,用于新建一篇文章</li>
-</ol>
-</blockquote>
-<p>装完git后在桌面任意地方鼠标点击右键会看到有Git Bash和Git GUI。在任意地方鼠标右键后点击Git Bash即可弹出终端，在终端中使用下面命令安装</p>
-<blockquote>
-<ol>
-<li>$ npm install hexo-cli -g</li>
-</ol>
-</blockquote>
-<p>如果之后在使用的过程中，遇到以下的错误</p>
-<blockquote>
-<ol>
-<li>ERROR Deployer not found : github</li>
-</ol>
-</blockquote>
-<p>则运行以下命令,或者你直接先运行这个命令更好。如果不运行之后还可能会报错。</p>
-<blockquote>
-<ol>
-<li>$ npm install hexo-deployer-git –save</li>
-<li>$ hexo g</li>
-<li>$ hexo d</li>
-</ol>
-</blockquote>
-<p>接下来创建放置博客文件的地方：hexo文件夹。创建在自己习惯使用的地方，名字可以随意起，只要自己记得住就好。我方便记直接使用了hexo。<br>比如我的文件夹位置为：<strong>c:\hexo</strong>。创建文件夹之后进入该文件夹，右键选择Git Bash进入终端，执行以下命令：</p>
-<blockquote>
-<ol>
-<li>$ hexo init</li>
-</ol>
-</blockquote>
-<p>安装依赖包</p>
-<blockquote>
-<ol>
-<li>$ npm install</li>
-</ol>
-</blockquote>
-<p>在E:\hexo内执行以下命令：</p>
-<blockquote>
-<ol>
-<li>$ hexo g</li>
-<li>$ hexo s</li>
-</ol>
-</blockquote>
-<p>然后用浏览器访问<a href="http://localhost:4000/" title="hexo端口" target="_blank" rel="external">http://localhost:4000/</a>，这个时候你应该可以看到一个博客了，不过这个博客是自带的，存在本地，别人是看不到的。hexo3.0使用的默认主题是landscape。这也正是hexo的强大之处，可以本地预览，之后再上传到github上即可。</p>
-<h2 id="注册Github"><a href="#注册Github" class="headerlink" title="注册Github"></a>注册Github</h2><p>上github注册账号<br><a href="https://github.com/" title="github官网" target="_blank" rel="external">https://github.com/</a></p>
-<h2 id="创建repository"><a href="#创建repository" class="headerlink" title="创建repository"></a>创建repository</h2><p>repository相当于一个仓库，用来存放你的代码。而且可以提取很久之前修改过的代码，非常强大，而且是免费。这也正是github 的强大之处。首先登陆github，进入个人页面。点击New repository新建一个仓库。如果没有看到New repository 的话进入repository后即可看到。</p>
-<p>创建时，只需要填写Repository name即可，当然这个名字的格式必须为yourname.github.io，例如我的为superdiao.github.io</p>
-<h2 id="部署本地文件到github"><a href="#部署本地文件到github" class="headerlink" title="部署本地文件到github"></a>部署本地文件到github</h2><p>repository创建后，就是要把博客放到Github上了，编辑C:\hexo文件下的_config.yml文件。建议使用代码编辑器打开。</p>
-<p>在_config.yml最下方，添加如下配置(命令中的第一个superdiao为Github的用户名,第二个superdiao为之前New的Repository的名字,记得改成自己的。另外记得一点，hexo的配置文件中任何’:’后面都是带一个空格的),如果配置以下命令出现ERROR Deployer not found : github，则参考上文的解决方法。</p>
-<blockquote>
-<ol>
-<li>deploy: </li>
-<li>type: git</li>
-<li>repository: <a href="http://github.com/superdiao/superdiao.github.io.git" target="_blank" rel="external">http://github.com/superdiao/superdiao.github.io.git</a></li>
-<li>branch: master</li>
-</ol>
-</blockquote>
-<p>配置好_config.yml并保存后，执行以下命令部署到Github上。</p>
-<blockquote>
-<ol>
-<li>$ hexo g</li>
-<li>$ hexo d</li>
-</ol>
-</blockquote>
-<p>执行上面的第二个命令，可能会要你输入用户名和密码，输入github的帐号密码即可。<br>如果_config.yml中的repository: <a href="http://github.com/superdiao/superdiao.github.io.git可以打开的话，在浏览器中访问superdiao.github.io" target="_blank" rel="external">http://github.com/superdiao/superdiao.github.io.git可以打开的话，在浏览器中访问superdiao.github.io</a> 就能看到自己的博客了。</p>
-
+        <h1 id="Web踩点"><a href="#Web踩点" class="headerlink" title="Web踩点"></a>Web踩点</h1><h2 id="一、什么是踩点"><a href="#一、什么是踩点" class="headerlink" title="一、什么是踩点"></a>一、什么是踩点</h2><p>对白帽子来说，在开始真正渗透之前，必须完成渗透前的信息收集，收集的第一步就是踩点。彩电就是对指定目标进行系统的网站信息收集，攻击者将尽可能多的收集目标单位的安全情况的方方面面。最后就可以得到一个独特的足迹。</p>
+<p>因为数据的大量泄漏加上上网的群众大都不注重自己的信息保密，导致只要想查，任何人都可以从公开渠道查到很多，其数量之多绝对会让你们大吃一惊。</p>
+<p>总之：成功的攻击者需要这样，他们必须收集大量的信息，以便集中火力进行外科手术式攻击（这种攻击不会轻易被捉住）<br><a id="more"></a></p>
+<h2 id="二、为什么要踩点"><a href="#二、为什么要踩点" class="headerlink" title="二、为什么要踩点"></a>二、为什么要踩点</h2><p>每个人都有自己的习惯、思维方式，发掘他的习惯、思维方式，就是他的弱点。</p>
+<p>踩点是必须的，基于一个根本的原因，它能展示给你一个黑客能看到的情景。如果你看到黑客所看到的，你就会知道你的环境中可能暴漏什么潜在的安全漏洞。当你知道了你所暴漏的信息，你就会知道如何去防范。</p>
+<p>踩点是最辛苦的任务之一；同时，对于试图进行模拟黑客渗透尝试的初学者来说，它也是最枯燥的。但它同时也是最为重要的任务之一。决定渗透工作成败与效率的主要因素。所以踩点必须精确地进行，而且必须在受控状态下完成。</p>
+<h2 id="三、Web踩点有哪些常见手段"><a href="#三、Web踩点有哪些常见手段" class="headerlink" title="三、Web踩点有哪些常见手段"></a>三、Web踩点有哪些常见手段</h2><h3 id="1、网站共享主机（旁注）"><a href="#1、网站共享主机（旁注）" class="headerlink" title="1、网站共享主机（旁注）"></a>1、网站共享主机（旁注）</h3><p>旁注是网络上比较流行的一种入侵方式，利用同意主机上面不同的网站漏洞得到webshell，从而利用主机上的程序或者服务所暴漏的用户所在的物理路径进行入侵。网站共享主机漏洞是更为严谨的学术叫法。</p>
+<p>●k8_c段旁注查询工具</p>
+<p>k8_c段旁注工具利用微软提供的API查询目标服务器或C段服务器上绑定的其它网站。</p>
+<p>●关于c段旁注<br>旁注与c段嗅探的意义，旁注的意思就是从同台服务器上的其他网站入手，提权，然后把服务器端了，就自然把服务器端了。c端嗅探就是拿下同一个c段中的其中一台服务器，然后利用工具嗅探拿下该服务器。</p>
+<h3 id="2、WHOIS"><a href="#2、WHOIS" class="headerlink" title="2、WHOIS"></a>2、WHOIS</h3><p>利用whois服务，可以获取与目标相关的具体信息，包括注册人邮箱，IP地址，公司dns主机名以及地址和电话号码等敏感信息。</p>
+<p>①whois正向查询</p>
+<p>②whois反向查询</p>
+<p>whois查询网站：爱站网、站长之家</p>
+<h3 id="3、二级域名"><a href="#3、二级域名" class="headerlink" title="3、二级域名"></a>3、二级域名</h3><p>①搜索引擎使用site指令搜索</p>
+<p>百度、谷歌、必应</p>
+<p>②dns区域传送/域名暴力枚举</p>
+<p>fierce是使用多种技术来扫描目标主机IP的一个DNS服务器枚举工具。运用递归的方式来工作。工作原理是先通过查询本地DNS服务器来查找目标DNS服务，然后使用目标DNS服务器来查找子域名。fierce的主要特点就是可以用来定位独立IP空间对应域名和主机名。</p>
+<pre><code>在kali上输入以下指令：
+fierce -dns xxx.com -threads 100
+</code></pre><h3 id="4、CDN后的真实IP"><a href="#4、CDN后的真实IP" class="headerlink" title="4、CDN后的真实IP"></a>4、CDN后的真实IP</h3><p>CDN概述：</p>
+<p>CDN即内容分发网络。其基本思路是尽可能避开互联网上有可能影响数据传输速度和稳定性的瓶颈和环节，使内容传输的更快、更稳定。通过在网络各处放置节点服务器所构成的在现有的互联网基础之上的一层只能虚拟网络，CDN系统能够实时地根据网络流量和各节点的链接、负载状况以及用户的距离和相应时间等综合信息将用户的请求重新导向离用户最近的服务器节点上。其目的是使用户就近取得所需内容，解决Internet网络拥挤的状况，提高用户访问网络的响应速度。</p>
+<p>CDN是构建在网络之上的内容分发网络，依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度、CDN的关键技术是内容存储和分发技术。</p>
+<p>phpinfo中server_addr的IP地址百分百是真实服务器的IP地址</p>
+<p>网上搜索phpinfo的方法：intitle:phpinfo{} inurl:*.php</p>
+<h3 id="5、C段子网网关"><a href="#5、C段子网网关" class="headerlink" title="5、C段子网网关"></a>5、C段子网网关</h3><p>通过路由跟踪排除C段不同网关邻居主机</p>
+<p>windows下的命令：只支持icmp（ping）协议，有些服务器会丢弃icmp协议</p>
+<pre><code> tracert [-d] [-h maximum_hops] [-j host-list] [-w timeout][-R] [-S srcaddr] [-4] [-6] target_name
+-d                 不将地址解析成主机名。
+-h maximum_hops    搜索目标的最大跃点数。
+-j host-list       与主机列表一起的松散源路由(仅适用于 IPv4)。
+-w timeout         等待每个回复的超时时间(以毫秒为单位)。
+-R                 跟踪往返行程路径(仅适用于 IPv6)。
+-S srcaddr         要使用的源地址(仅适用于 IPv6)。
+-4                 强制使用 IPv4。
+-6                 强制使用 IPv6。
+</code></pre><p>linux下的命令：</p>
+<pre><code>traceroute -n -T -p 53 ip地址
+traceroute -n -T -p 80 //优先
+traceroute -T  -p 80 
+-n 不解析主机名
+-p指定端口
+-T指定协议为TCP
+-I指定协议为icmp
+-U指定协议为udp
+-S指定发送源端口
+ftp://ftp.cerias.purdue.edu/pub/tools/unix/netutils/traceroute/old
+增强版可指定源端口
+</code></pre><h3 id="6、IDC机房ISP信息"><a href="#6、IDC机房ISP信息" class="headerlink" title="6、IDC机房ISP信息"></a>6、IDC机房ISP信息</h3><p>通过IP查询出ip段所分配运营商。</p>
+<pre><code>全球注册信息管理机构：
+北美 arin.net
+欧洲 ripe.net
+亚洲www.apnic.net
+拉丁美洲/加勒比whois.lacnic.net
+</code></pre><p>①IP数据库管理机构查询IP信息。</p>
+<p>②目标IP网段或者临近网段路由器开放80管理端口泄露IDC运营商信息。</p>
+<pre><code>nmap -Pn -n -sC -sV -p 80 211.147.4-6.1-254
+-Pn 不进行主机发现
+-n 不用域名解析，加快扫描速度
+-sC 搜集各种应用服务的信息
+-sV 探测端口的服务类型/具体版本等信息
+扫描目标网段的http-title，获取路由器title，扫描的话扫此网段的周边几个网段。
+</code></pre>
       
     </div>
 
@@ -401,11 +388,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hexo/" rel="tag">#hexo</a>
+            <a href="/tags/Web踩点/" rel="tag">#Web踩点</a>
           
-            <a href="/tags/git/" rel="tag">#git</a>
-          
-            <a href="/tags/github/" rel="tag">#github</a>
+            <a href="/tags/Web安全/" rel="tag">#Web安全</a>
           
         </div>
       
@@ -414,13 +399,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2014/12/23/kalilivaupan/" rel="next" title="U盘制作kali live">
+                <i class="fa fa-chevron-left"></i> U盘制作kali live
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2014/11/23/nmap/" rel="prev" title="Nmap 原理简单介绍和应用">
-                Nmap 原理简单介绍和应用 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -534,7 +519,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用Hexo搭建个人博客"><span class="nav-number">1.</span> <span class="nav-text">使用Hexo搭建个人博客</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正文"><span class="nav-number">1.2.</span> <span class="nav-text">正文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Node-js"><span class="nav-number">1.3.</span> <span class="nav-text">安装Node.js</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Git"><span class="nav-number">1.4.</span> <span class="nav-text">安装Git</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装hexo"><span class="nav-number">1.5.</span> <span class="nav-text">安装hexo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注册Github"><span class="nav-number">1.6.</span> <span class="nav-text">注册Github</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建repository"><span class="nav-number">1.7.</span> <span class="nav-text">创建repository</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署本地文件到github"><span class="nav-number">1.8.</span> <span class="nav-text">部署本地文件到github</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Web踩点"><span class="nav-number">1.</span> <span class="nav-text">Web踩点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、什么是踩点"><span class="nav-number">1.1.</span> <span class="nav-text">一、什么是踩点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、为什么要踩点"><span class="nav-number">1.2.</span> <span class="nav-text">二、为什么要踩点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、Web踩点有哪些常见手段"><span class="nav-number">1.3.</span> <span class="nav-text">三、Web踩点有哪些常见手段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、网站共享主机（旁注）"><span class="nav-number">1.3.1.</span> <span class="nav-text">1、网站共享主机（旁注）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、WHOIS"><span class="nav-number">1.3.2.</span> <span class="nav-text">2、WHOIS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、二级域名"><span class="nav-number">1.3.3.</span> <span class="nav-text">3、二级域名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、CDN后的真实IP"><span class="nav-number">1.3.4.</span> <span class="nav-text">4、CDN后的真实IP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、C段子网网关"><span class="nav-number">1.3.5.</span> <span class="nav-text">5、C段子网网关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、IDC机房ISP信息"><span class="nav-number">1.3.6.</span> <span class="nav-text">6、IDC机房ISP信息</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
         </section>
