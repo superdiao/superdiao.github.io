@@ -1,0 +1,962 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="工具," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="二级域名爆破的小工具~要有二级域名的字典偶~字典小编就不提供啦~">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python工具之二级域名爆破">
+<meta property="og:url" content="http://yoursite.com/2016/11/12/Python工具之二级域名爆破/index.html">
+<meta property="og:site_name" content="superDiao">
+<meta property="og:description" content="二级域名爆破的小工具~要有二级域名的字典偶~字典小编就不提供啦~">
+<meta property="og:updated_time" content="2016-11-12T11:25:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python工具之二级域名爆破">
+<meta name="twitter:description" content="二级域名爆破的小工具~要有二级域名的字典偶~字典小编就不提供啦~">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 11954855,
+      author: '超人不会飞'
+    }
+  };
+</script>
+
+  <title> Python工具之二级域名爆破 | superDiao </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">superDiao</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', '5TaQ1ELKgGMaJxmr4joh','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Python工具之二级域名爆破
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-12T11:15:14+08:00" content="2016-11-12">
+              2016-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/12/Python工具之二级域名爆破/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/12/Python工具之二级域名爆破/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/11/12/Python工具之二级域名爆破/" class="leancloud_visitors" data-flag-title="Python工具之二级域名爆破">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>二级域名爆破的小工具~要有二级域名的字典偶~<br>字典小编就不提供啦~<br><a id="more"></a></p>
+<p>DNS.py</p>
+<pre><code>import dns.resolver
+import time
+import threading
+from multiprocessing import Queue
+import os
+from Address import Address
+
+class DNSBrute(object):
+    def __init__(self,domainName,thread_NUM):
+        #domainName：开始的域名,格式：baidu.com
+        self.domainName = domainName
+        #thread_NMU：开启的线程数量
+        self.thread_count = self.thread_NUM = thread_NUM
+        #scan_count：扫描过的数量
+        #found_count：扫描到的域名的数量
+        self.scan_count = self.found_count = 0
+        #线程锁，因为有很多个线程同时操作，所以要有一个线程锁
+        self.lock = threading.Lock()
+        #保存DNS解析对象的列表
+        self.resolvers = [dns.resolver.Resolver() for _ in range(thread_NUM)]
+        self.load_dns_servers()
+        self.load_subname()
+        #查找出来的ip地址的字典
+        self.ip_dict = {}
+        #
+        self.STOP_ME = False
+        #查询出来的结果列表
+        #在查询结束之后，要保存到数据库
+        self.result = [] 
+
+
+        # for x in range(thread_NUM):
+        #     #创建一个DNS解析对象
+        #     new_resolver = dns.resolver.Resolver()
+        #     #添加进列表中
+        #     self.resolvers.append(new_resolver)
+
+
+    #第一个函数,从dns_servers.txt读取内容，保存到列表中
+    #第二个盘数，从subnama.txt 文档中读取内容,保存到Queue
+    def load_dns_servers(self):
+        dns_servers = []
+        with open(&apos;dns_servers.txt&apos;,&apos;r&apos;) as f:
+            for x in f:
+                #strip()去掉字符串中的空格
+                server = x.strip()
+                #将去掉空格的dns保存到数组中
+                dns_servers.append(server)
+        #保存成全局通用的
+        self.dns_servers = dns_servers
+        self.dns_count = len(dns_servers)
+
+    def load_subname(self):
+        self.queue = Queue()
+        with open(&apos;subnames.txt&apos;,&apos;r&apos;) as f:
+            for x in f:
+                subname = x.strip()
+                self.queue.put(subname)
+            print(self.queue)
+    #查询二级域名的函数
+    def scan(self):
+        #获取当前进程的名字
+        thread_id = int(threading.currentThread().name)
+        self.resolvers[thread_id].nameservers.insert(0,self.dns_servers[thread_id % self.dns_count])
+        self.resolvers[thread_id].lifetime = 10.0    
+        self.resolvers[thread_id].timeout = 10.0
+        #获取队列里面任务数的函数
+        while self.queue.qsize() &gt; 0 and not self.STOP_ME:
+            #QUEUE -&gt; www,map,zhidao
+            #domainName - &gt; baidu.com
+            #resolver -&gt; 查询 www.baidu.com 的对象
+            #从队列中获取到二级域名
+            sub = self.queue.get()
+            #循环三次是因为对象中有三个dns服务器地址
+            for _ in range(3):
+                #sub_domain = www.baidu.com 等二级域名地址
+                sub_domain = sub + &apos;.&apos; + self.domainName
+                try:
+                    #通过dns插查询对象去查询二级域名是否正确
+                    answers = self.resolvers[thread_id].query(sub_domain)
+                    if answers:
+                        ips = &apos;,&apos;.join(answer.address for answer in answers)
+                        #开启线程锁
+                        self.lock.acquire()
+                        #发现的数量加1
+                        self.found_count += 1
+                        print(self.found_count)
+                        print(sub_domain,ips)
+                        #保存到结果列表中
+                        self.result.append((sub_domain,ips))
+                        self.lock.release()
+                except Exception as e:
+                    pass
+            print(self.found_count,self.queue.qsize())
+        self.lock.acquire() #程序将要结束了
+        self.thread_count -= 1
+        self.lock.release()
+    def run(self):
+            for x in range(self.thread_NUM):
+                t = threading.Thread(target = self.scan,name = str(x))
+                #这个线程会在主线程结束的时候被注释掉
+                t.setDaemon(True)
+                t.start()
+            #以下这段代码的意义是只有用户在按主动退出的时候才结束程序
+            while self.thread_count &gt; 1:
+                try:
+                    time.sleep(0.5)
+                #KeyboardInterrupt 键盘输入退出ctrl + c
+                except KeyboardInterrupt as e:
+                    self.STOP_ME = True
+
+            for x in self.result :
+                a = Address(x[0],x[1],self.domainName)
+
+
+
+if __name__ == &apos;__main__&apos;:
+    d = DNSBrute(&apos;lanou3g.com&apos;,60)
+    d.run()
+</code></pre><p>Address.py</p>
+<pre><code>import pymysql
+class Address(object):
+    def __init__(self, domainName, ip, tableName):
+        self.domainName = domainName
+        self.ip = ip
+        self.tableName = tableName
+        self.createTable(tableName)
+        if self.isHave(tableName, ip):
+            self.insertTable(domainName, ip, tableName)
+
+    def createTable(self, tableName):
+        coon = pymysql.connect(host=&apos;localhost&apos;, port = 3306, user = &apos;root&apos;, passwd=&apos;root&apos;, db = &apos;test&apos;, charset = &apos;UTF8&apos;)
+        cursor = coon.cursor()
+        DM = tableName.split(&apos;.&apos;)
+        a = &apos;create table if not exists &apos; + DM[0] + &apos;(id int primary key auto_increment, ip varchar(1000), domainName varchar(1000))&apos;
+        cursor.execute(a)
+        coon.commit()
+        coon.close()
+
+    def insertTable(self, domainName, ip, tableName):
+        coon = pymysql.connect(host=&apos;localhost&apos;, port = 3306, user = &apos;root&apos;, passwd=&apos;root&apos;, db = &apos;test&apos;, charset = &apos;UTF8&apos;)
+        cursor = coon.cursor()
+        DM = tableName.split(&apos;.&apos;)
+        a = &apos;insert into &apos; + DM[0] + &apos;(ip, domainName) values (\&apos;&apos; + ip + &quot;&apos;, &apos;&quot; + domainName + &quot;&apos;)&quot;
+        cursor.execute(a)
+        coon.commit()
+        coon.close()
+
+    def isHave(self, tableName, ip):
+        coon = pymysql.connect(host=&apos;localhost&apos;, port = 3306, user = &apos;root&apos;, passwd=&apos;root&apos;, db = &apos;test&apos;, charset = &apos;UTF8&apos;)
+        cursor = coon.cursor()
+        DM = tableName.split(&apos;.&apos;)
+        a = &apos;select * from &apos; + DM[0] + &apos; where ip = \&apos;&apos; + ip + &quot;&apos;&quot;
+        cursor.execute(a)
+        values = cursor.fetchall()
+        if values:
+            return False
+        else:
+            return True
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/工具/" rel="tag">#工具</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/12/Python工具之爬虫/" rel="next" title="Python工具之爬虫">
+                <i class="fa fa-chevron-left"></i> Python工具之爬虫
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/15/SqlMap转载/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/11/12/Python工具之二级域名爆破/"
+     data-title="Python工具之二级域名爆破"
+     data-content=""
+     data-url="http://yoursite.com/2016/11/12/Python工具之二级域名爆破/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/12/Python工具之二级域名爆破/"
+           data-title="Python工具之二级域名爆破" data-url="http://yoursite.com/2016/11/12/Python工具之二级域名爆破/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/nan.gif"
+               alt="SuperDiao" />
+          <p class="site-author-name" itemprop="name">SuperDiao</p>
+          <p class="site-description motion-element" itemprop="description">keep calm and carry on</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/superdiao" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3279716037" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/superdx" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SuperDiao</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"superdiao"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js"></script>
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("Y4DRvcdFfo0vM2ibxmuwpc8q-gzGzoHsz", "5725tccldraSXqd6QUaJnLYS");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

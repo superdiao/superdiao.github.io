@@ -1,0 +1,914 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="HTTP," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="超文本传输协议（HTTP协议）：访问万维网使用的核心通信协议，也是今天所有web应用程序使用的通讯协议">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP协议">
+<meta property="og:url" content="http://yoursite.com/2016/09/25/HTTP协议/index.html">
+<meta property="og:site_name" content="superDiao">
+<meta property="og:description" content="超文本传输协议（HTTP协议）：访问万维网使用的核心通信协议，也是今天所有web应用程序使用的通讯协议">
+<meta property="og:image" content="http://i.imgur.com/cimo5Ep.png">
+<meta property="og:image" content="http://i.imgur.com/pFPDnel.png">
+<meta property="og:image" content="http://i.imgur.com/NIirsFG.png">
+<meta property="og:image" content="http://i.imgur.com/vKcpUvq.png">
+<meta property="og:image" content="http://i.imgur.com/ELSftp6.png">
+<meta property="og:image" content="http://i.imgur.com/pT7dsie.png">
+<meta property="og:updated_time" content="2016-09-25T12:13:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTTP协议">
+<meta name="twitter:description" content="超文本传输协议（HTTP协议）：访问万维网使用的核心通信协议，也是今天所有web应用程序使用的通讯协议">
+<meta name="twitter:image" content="http://i.imgur.com/cimo5Ep.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 11954855,
+      author: '超人不会飞'
+    }
+  };
+</script>
+
+  <title> HTTP协议 | superDiao </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">superDiao</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', '5TaQ1ELKgGMaJxmr4joh','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                HTTP协议
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-25T19:46:57+08:00" content="2016-09-25">
+              2016-09-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/协议/" itemprop="url" rel="index">
+                    <span itemprop="name">协议</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/25/HTTP协议/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/25/HTTP协议/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/09/25/HTTP协议/" class="leancloud_visitors" data-flag-title="HTTP协议">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>超文本传输协议（HTTP协议）：访问万维网使用的核心通信协议，也是今天所有web应用程序使用的通讯协议<br><a id="more"></a><br>http使用一种基于消息的模型：客户端送出一条请求消息，而后由服务器返回一条响应消息<br>所有HTTP消息（请求与响应）中都包含一个或几个单行显示的消息头，然后是一个强制空白行，最后是消息主体（可选）。    </p>
+<h3 id="一、HTTP请求信息由三部分组成"><a href="#一、HTTP请求信息由三部分组成" class="headerlink" title="一、HTTP请求信息由三部分组成"></a>一、HTTP请求信息由三部分组成</h3><p>HTTP请求的典型实例：<br><img src="http://i.imgur.com/cimo5Ep.png" alt="">    </p>
+<p><img src="http://i.imgur.com/pFPDnel.png" alt=""></p>
+<p>重要：每个HTTP请求的第一行都有3个以上空格间隔的项目组成。 </p>
+<h4 id="1、请求方法URI协议版本"><a href="#1、请求方法URI协议版本" class="headerlink" title="1、请求方法URI协议版本"></a>1、请求方法URI协议版本</h4><p>例子中GET代表请求方法<br>/auth/488/yourdetails.ashx?uid-129是URI，URL通常由所请求的资源名称，以及一个包含客户端向该资源提交的参数可选查询字符组成。HTTP/1.1 代表协议和协议版本。<br>根据HTTP标准，HTTP请求可以使用多种请求方法。例如：HTTP1.1支持7种请求方法：GET、POST、HEAD、OPTIONS、PUT、DELETE和TARCE。在Internet应用中，最常用的方法是GET和POST。<br>因特网上常用的HTTP版本为1.0和1.1，多数浏览器默认使用1.1版本。这两个版本的规范之间存在一些差异；然而，当攻击Web应用程序时，渗透测试员可能遇到的唯一 差异是1.1版本必须使用Host请求头。</p>
+<h4 id="2、请求头"><a href="#2、请求头" class="headerlink" title="2、请求头"></a>2、请求头</h4><p>请求头包含许多有关的客户端环境和请求正文的有用信息。例如，请求头可以声明浏览器所用的语言，请求正文的长度等。</p>
+<h4 id="3、请求正文"><a href="#3、请求正文" class="headerlink" title="3、请求正文"></a>3、请求正文</h4><p>请求头和请求正文之间是一个空行，这个行非常重要，它表示请求头已经结束，接下来的是请求正文。请求正文中可以包含客户提交的查询字符串信息。</p>
+<h3 id="二、HTTP响应信息由三部分组成"><a href="#二、HTTP响应信息由三部分组成" class="headerlink" title="二、HTTP响应信息由三部分组成"></a>二、HTTP响应信息由三部分组成</h3><p>HTTP响应实例：</p>
+<p><img src="http://i.imgur.com/NIirsFG.png" alt=""></p>
+<h4 id="1、协议状态版本代码描述"><a href="#1、协议状态版本代码描述" class="headerlink" title="1、协议状态版本代码描述"></a>1、协议状态版本代码描述</h4><p>协议状态代码描述HTTP响应的第一行类似于HTTP请求的第一行，它表示通信所用的协议是HTTP1.1服务器已经成功的处理了客户端发出的请求（200表示成功）:<br>HTTP/1.1 200 OK</p>
+<h4 id="2、响应头-Response-Header"><a href="#2、响应头-Response-Header" class="headerlink" title="2、响应头(Response Header)"></a>2、响应头(Response Header)</h4><p>响应头(Response Header)响应头也和请求头一样包含许多有用的信息，例如服务器类型、日期时间、内容类型和长度等：</p>
+<h4 id="3、响应正文"><a href="#3、响应正文" class="headerlink" title="3、响应正文"></a>3、响应正文</h4><p>响应正文响应正文就是服务器返回的HTML页面<br>重点：响应头和正文之间也必须用空行分隔。<br>每个HTTP响应的第一行由三个以上空格间隔的项目组成</p>
+<h3 id="三、HTTP方法："><a href="#三、HTTP方法：" class="headerlink" title="三、HTTP方法："></a>三、HTTP方法：</h3><p>当渗透测试员攻击Web应用程序时，几乎肯定会遇到最常用的方法：GET和POST。这些方法之间存在一些必须了解的重要差异，忽略这些差异可能会危及应用程序的安全。    </p>
+<h4 id="GET方法"><a href="#GET方法" class="headerlink" title="GET方法"></a>GET方法</h4><p>从web服务器获取资源，它可以用于URL查询字符串的形式向所请求的资源发送参数。这使用户可将一个包含动态资源的URL标注为书签，用户自己或其它用户随后可重复利用该书签来获取等价的资源。URL显示在屏幕上，并被记录在许多地方，如浏览器的历史记录和Web服务器的访问日志中。如果单击外部链接，还可以用Referer消息头将他们传送到其它站点。因此，请勿使用查询字符串传送任何敏感信息。</p>
+<h4 id="POST方法"><a href="#POST方法" class="headerlink" title="POST方法"></a>POST方法</h4><p>执行操作，使用这个方法可以在URL查询字符串与消息主体中发送请求参数。许多维护URL日志的位置及Referer消息头也将这些参数排除在外。因为POST方法旨在执行操作，如果用户单击浏览器上的“后退”按钮，返回一个这种方法返回的页面，那么浏览器不会自动重新发送请求，而是就即将发生的操作向用户发出警告。这样做可防止用户无意中多次执行同一个操作。因此在执行某已操作事必须使用POST请求。</p>
+<h4 id="HEAD方法"><a href="#HEAD方法" class="headerlink" title="HEAD方法"></a>HEAD方法</h4><p>功能与GET相似，不同之处在于不会在其响应中返回消息主体。服务器返回的消息头应与对应GET请求返回的消息头相同。因此，这种方法可用于检查某一资源在向其提交GET请求前是否存在。</p>
+<h4 id="TRACE方法"><a href="#TRACE方法" class="headerlink" title="TRACE方法"></a>TRACE方法</h4><p>用于诊断，服务器应在相应主体中返回其受到的请求消息的具体内容这种方法可用于检测客户端与服务器之间是否存在任何操作请求的代理服务器。</p>
+<h4 id="OPTIONS方法"><a href="#OPTIONS方法" class="headerlink" title="OPTIONS方法"></a>OPTIONS方法</h4><p>要求服务器报告对某一特殊资源有效的HTTP方法，服务器通常返回一个包含Allow消息头的相应，并在其中列出所有有效的方法。</p>
+<h4 id="PUT方法"><a href="#PUT方法" class="headerlink" title="PUT方法"></a>PUT方法</h4><p>这个方法试图使用包含在请求主体中的内容，向服务器上传制定的资源。如果激活这个方法，渗透测试员就可以利用它来攻击应用程序，例如，通过上传任意一段脚本并在服务器上执行该脚本来攻击应用程序。</p>
+<h3 id="四、URL"><a href="#四、URL" class="headerlink" title="四、URL"></a>四、URL</h3><p>同一资源定位符是标识WEB资源的唯一标识符，通过它可以获取其标识的资源。</p>
+<h3 id="五、常用消息头："><a href="#五、常用消息头：" class="headerlink" title="五、常用消息头："></a>五、常用消息头：</h3><ul>
+<li>Connection ：用于告诉通信的另一端，在完成HTTP传输后是关系TCP连接，还是保持连接开放以接收其他消息。    </li>
+<li>Content-Encoding ：为消息主体中的内容制定编码形式（如gzip），一些应用程序使用它来压缩相应以加快传输速度。</li>
+<li>Content-Length ：用于规定消息主体的字节长度。</li>
+<li>Content-Type ：用于规定消息主体的内容类型。例如，HTML文档的内容类型为text/html</li>
+<li>Transfer-Encoding：指定为方便其通过HTTP传输而对消息主体使用的任何编码。如果使用这个消息头，通常用它指定块编码。</li>
+</ul>
+<h3 id="六、请求消息头："><a href="#六、请求消息头：" class="headerlink" title="六、请求消息头："></a>六、请求消息头：</h3><ul>
+<li>accept：用于告诉服务器客户端愿意接受哪些内容，如图像类型，办公文档格式等。</li>
+<li>Accept-Encoding：用于告诉服务器，客户端愿意接受哪些内容编码。</li>
+<li>Authorization：用于为一种内置的HTTP身份验证向服务器提交证书。</li>
+<li>Host：用于指定出现在所请求的完整URL中的主机名称。</li>
+<li>Cookie：用于提交服务器向客户端发布的其他参数。</li>
+<li>If-Modified-Since：用于说明浏览器最后一次受到所请求的资源的时间。</li>
+<li>Origin：用在跨域Ajax请求中，用于指示提出请求的域。</li>
+<li>Referer：用于指示提出当前请求的原始URL。</li>
+<li>User-Agent：提供与浏览器或生成请求的其他客户端软件有关的信息，请注意，由于历史原因，大多数浏览器中都包含Mozilla前缀。</li>
+</ul>
+<h3 id="七、响应消息头："><a href="#七、响应消息头：" class="headerlink" title="七、响应消息头："></a>七、响应消息头：</h3><ul>
+<li>Access-Control-Allow-Origin：用于指示可否通过跨域Ajax请求获取资源。</li>
+<li>Cache-Control：用于向浏览器传送缓存指令（如no-cache）。只能用于http 1.1</li>
+<li>ETag：用于指定一个实体标签。</li>
+<li>Expires：用于向浏览器说明消息主体内容的有效时间。</li>
+<li>Location。 ：用于在重定向响应（那些状态吗以3开头的响应）中说明重定向的目标。</li>
+<li>Pragma：用于向浏览器（http 1.0 和http 1.1）。</li>
+<li>Server：提供所使用的Web服务器软件的相关信息。</li>
+<li>Set-Cookie ：用于向浏览器发布cookie，浏览器会在随后的请求中将其返回给服务器。</li>
+<li>WWW-Authenticate ：用在带401状态码的响应中，提供与服务器所支持的身份验证类型有关的信息。</li>
+<li>X-Frame-Options：指示浏览器框架是否及如何加载当前响应。</li>
+</ul>
+<h3 id="八、cookie"><a href="#八、cookie" class="headerlink" title="八、cookie"></a>八、cookie</h3><p>是大多数Web应用程序所依赖2的HTTP协议的一个关键组成部分，攻击者常常通过它来利用Web应用程序中的漏洞。服务器使用cookie机制向客户端发送数据，客户端保存cookie并将其返回给服务器。与其他类型的请求参数（存在于URL查询字符串或消息主体中）不同，无需应用程序或用户采取任何特殊措施，随后的一个每一个请求都会继续重新向服务器提交cookie。服务器使用Set-Cookie响应消息头发布cookie：<br><img src="http://i.imgur.com/vKcpUvq.png" alt=""><br>用于向浏览器发布cookie，然后，用户的浏览器自动将下面的消息头添加到随后返回给同一服务器的请求中。<br><img src="http://i.imgur.com/ELSftp6.png" alt=""><br>cookie一般由一个名/值对构成，但也可包含任何不含空格的字符串。可以在服务器响应中使用几个Set-Cookie消息头发布多个cookie, 并可在同一个cookie消息头中分隔不同的cookie，将他们全部返回给服务器。</p>
+<p>除cookie的实际值外，Set-Cookie消息头还可包含以下任何可选属性，用它们控制浏览器处理cookie的方式。    </p>
+<ul>
+<li>Expires：用于设定cookie的有效时间。。这样会使浏览器将cookie保存在永久性的存储器中，在随后的浏览器会话中重复利用，直到到期时间为止。如果没有设定这个属性，那么cookie仅用在当前浏览器会话中。</li>
+<li>Domain：用于指定cookie的有效域。这个域必须和收到cookie的域相同，或者是它的父域。</li>
+<li>Path用：于指定cookie的有效URL路径。</li>
+<li>Secure：如果设置这个属性，则仅在HTTPS请求中提交cookie。</li>
+<li>HttpOnly：如果设置这个属性，将无法通过客户端JavaScript直接访问cookie。</li>
+</ul>
+<h3 id="九、状态码"><a href="#九、状态码" class="headerlink" title="九、状态码"></a>九、状态码</h3><p>每条HTTP相应消息都必须在第一行中包含一个状态码，说明请求的结果。</p>
+<ul>
+<li>1xx—-提供信息</li>
+<li>2xx—-请求被成功提交。</li>
+<li>3xx—-客户端被重定向到其他资源。</li>
+<li>4xx—-请求包含某种错误。</li>
+<li>5xx—-服务器执行请求时遇到错误。</li>
+</ul>
+<h4 id="100-Continue"><a href="#100-Continue" class="headerlink" title="100 Continue"></a>100 Continue</h4><p>当客户端提交一个包含主体的请求时，将发送这个响应。改响应表示已收到请求消息头，客户端应继续发送主体。请求完成后，再由服务器返回另一个响应。</p>
+<h4 id="200-Ok"><a href="#200-Ok" class="headerlink" title="200 Ok"></a>200 Ok</h4><p>本状态码表示已成功提交请求，且响应主体中包含请求结果。</p>
+<h4 id="201-Created"><a href="#201-Created" class="headerlink" title="201 Created"></a>201 Created</h4><p>PUT请求的响应返回这个状态码，表示请求以成功提交。</p>
+<h4 id="301-Moved-Permanently"><a href="#301-Moved-Permanently" class="headerlink" title="301 Moved Permanently"></a>301 Moved Permanently</h4><p>将浏览器永久重定向到另外一个在Location消息头中指定的URl。</p>
+<h4 id="302-Found。"><a href="#302-Found。" class="headerlink" title="302 Found。"></a>302 Found。</h4><p>本状态码将浏览器暂时重定向到另外一个在Location消息头中指定的URL。客户端应在随后的请求中恢复使用原始URL。</p>
+<h4 id="304-Not-Modified。"><a href="#304-Not-Modified。" class="headerlink" title="304 Not Modified。"></a>304 Not Modified。</h4><p>本状态码指示浏览器使用缓存中保存的所请求资源的副本。服务器使用IF-Modified-Since与If-None-Match消息头确定客户端是否拥有最新版本的资源。</p>
+<h4 id="400-Bad-Request。"><a href="#400-Bad-Request。" class="headerlink" title="400 Bad Request。"></a>400 Bad Request。</h4><p>本状态码表示客户端提交了一个无效的HTTP请求。当以某种无效的方式修改请求时（例如在URL中插入一个空格符），可能会遇到这个状态码。</p>
+<h4 id="401-Unauthorized。"><a href="#401-Unauthorized。" class="headerlink" title="401 Unauthorized。"></a>401 Unauthorized。</h4><p>服务器在许可请求前要求HTTP进行身份验证。WWW-Authenticate消息头详细说明所支持的身份验证类型。</p>
+<h4 id="403-Forbidden。"><a href="#403-Forbidden。" class="headerlink" title="403  Forbidden。"></a>403  Forbidden。</h4><p>不管是否通过身份验证，禁止任何人访问被请求的资源。</p>
+<h4 id="404-Not-Found。"><a href="#404-Not-Found。" class="headerlink" title="404 Not Found。"></a>404 Not Found。</h4><p>本状态码表示所请求的资源并不存在。 </p>
+<h4 id="405-Method-Not-Allowed。"><a href="#405-Method-Not-Allowed。" class="headerlink" title="405 Method Not Allowed。"></a>405 Method Not Allowed。</h4><p>本状态码表示指定URL的不支持的请求中的使用的方法。例如，如果试图在不支持PUT方法的地方使用该方法，就会收到本状态码。</p>
+<h4 id="413-Request-Entity-Too-Large。"><a href="#413-Request-Entity-Too-Large。" class="headerlink" title="413 Request Entity Too Large。"></a>413 Request Entity Too Large。</h4><p>如果在本地代码中探查缓冲器溢出漏洞并就此提交超长数据串，则本状态码表示请求主体过长，服务器无法处理。</p>
+<h4 id="414-Request-URI-Too-Long。"><a href="#414-Request-URI-Too-Long。" class="headerlink" title="414 Request URI Too Long。"></a>414 Request URI Too Long。</h4><p>与前一个响应类似，本状态码表示请求中的URL过长，服务器无法处理。</p>
+<h4 id="500-Internal-Server-Error。"><a href="#500-Internal-Server-Error。" class="headerlink" title="500 Internal Server Error。"></a>500 Internal Server Error。</h4><p>本状态码表示服务器在执行请求时遇到错误。当提交无法预料的输入、在应用程序处理过程中造成无法处理的错误时，通常会收到本状态码。应该仔细检查服务器响应的所有内容，了解与错误性质有关的详情。</p>
+<h4 id="503-Server-Unavailable。"><a href="#503-Server-Unavailable。" class="headerlink" title="503 Server Unavailable。"></a>503 Server Unavailable。</h4><p>通常，本状态码表示尽管Web服务器运转正常，并且能够响应请求，但服务器访问的应用程序还是无法做出响应。应该进行核实，是否因为执行了某种行为而造成这个结果。</p>
+<h3 id="十、编码方案"><a href="#十、编码方案" class="headerlink" title="十、编码方案"></a>十、编码方案</h3><p>字符串是一种数据类型，但是，字符串比较特殊的是还有一个编码问题。因为计算机只能处理数字，如果要处理文本，就必须先把文本转换为数字才能处理。</p>
+<h4 id="ASCII编码："><a href="#ASCII编码：" class="headerlink" title="ASCII编码："></a>ASCII编码：</h4><p>由于计算机是美国人发明的，因此，最早只有127个字符被编码到计算机里，也就是大小写英文字母、数字和一些符号。ASCII编码是1个字节。<br>Unicode：<br>Unicode把所有语言都统一到一套编码里。Unicode标准也在不断发展，但最常用的是用两个字节表示一个字符（如果要用到非常偏僻的字符，就需要4个字节）。现代操作系统和大多数编程语言都直接支持Unicode。Unicode编码比ASCII编码需要多一倍的存储空间，在存储和传输上就十分不划算。<br>攻击Web应用程序时之所以要用到Unicode编码，主要在于有时可用它来破坏输人确认机制。 如果输人过滤阻止了某些恶意表达式，但随后处理输人的组件识别Unicode编码，就可以使用各 种标准与畸形Unicode编码避开过滤。</p>
+<h4 id="UTF-8编码："><a href="#UTF-8编码：" class="headerlink" title="UTF-8编码："></a>UTF-8编码：</h4><p>本着节约的精神，又出现了把Unicode编码转化为“可变长编码”的UTF-8编码。UTF-8编码把一个Unicode字符根据不同的数字大小编码成1-6个字节，常用的英文字母被编码成1个字节，汉字通常是3个字节，只有很生僻的字符才会被编码成4-6个字节。如果你要传输的文本包含大量英文字符，用UTF-8编码就能节省空间。ASCII编码实际上可以被看成是UTF-8编码的一部分，所以，大量只支持ASCII编码的历史遗留软件可以在UTF-8编码下继续工作。UTF-8编码的多字节字符以%为前缀，其后用十六进制表示每个字节。</p>
+<p>用记事本编辑的时候，从文件读取的UTF-8字符被转换为Unicode字符到内存里，编辑完成后，保存的时候再把Unicode转换为UTF-8保存到文件：</p>
+<p><img src="http://i.imgur.com/pT7dsie.png" alt=""></p>
+<p>计算机系统通用的字符编码工作方式：在计算机内存中，统一使用Unicode编码，当需要保存到硬盘或者需要传输的时候，就转换为UTF-8编码。</p>
+<h4 id="URL编码："><a href="#URL编码：" class="headerlink" title="URL编码："></a>URL编码：</h4><p>URL只允许使用US-ASCII字符集中的可打印字符（也就是ASCII代码在0x20 ~ 0x7e范围内的 字符)。<br>常见的URL编码字符：</p>
+<ul>
+<li>%3d代表=;</li>
+<li>%25代表%;</li>
+<li>%20代表空格；</li>
+<li>%0a代表新行；</li>
+<li>%00代表空字节。<br>另一个值得注意的编码字符是加号（ + )，它代表URL编码的空格（除%20代表空格外)。</li>
+</ul>
+<h4 id="HTML-编码："><a href="#HTML-编码：" class="headerlink" title="HTML 编码："></a>HTML 编码：</h4><p>HTML编码是一种用于表示问题字符以将其安全并人HTML文档的方案。HTML编码主要在探査跨站点脚本漏洞时发挥作用。如果应用程序 在响应中返回未被修改的用户输人，那么它可能易于受到攻击；但是，如果它对危险字符进行 HTML编码，也许比较安全。<br>HTML编码定义了大量HTML实体来表示特殊的字面量字符。</p>
+<ul>
+<li>&quot;代表”;</li>
+<li>&apos;代表 ‘;</li>
+<li>&amp;代表 &amp;;</li>
+<li>&lt;代表 &lt;;</li>
+<li>&gt;代表 &gt;</li>
+</ul>
+<h4 id="Base64-编码："><a href="#Base64-编码：" class="headerlink" title="Base64 编码："></a>Base64 编码：</h4><p>Base64编码仅用一个可打印的ASCII字符就可安全转换任何二进制数据，它常用于对电子邮 件附件进行编码，使其通过SMTP安全传输。它还可用于在基本HTTP验证机制中对用户证书进行编码。<br>Web应用程序利用Base64编码在cookie与其他参数中传送二进制数据，甚至用它打乱敏感数据以防止即使是细微的修改。应该总是留意并解码发送到客户端的任何Base64数据。由于这 些数据使用特殊的字符集，而且有时会在字符串末尾添加补足字符（ = ),因此可以轻易辨别出 Base64编码的字符串。（如果最后的输人数据块不能构成3段输出数据，就用一个或两个等号（=)补足输出）</p>
+<h4 id="十六进制编码："><a href="#十六进制编码：" class="headerlink" title="十六进制编码："></a>十六进制编码：</h4><p>许多应用程序在传送二进制数据时直接使用十六进制编码，用ASCII字符表示十六进制数据块。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/HTTP/" rel="tag">#HTTP</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/19/IIS写权限/" rel="next" title="IIS写权限漏洞">
+                <i class="fa fa-chevron-left"></i> IIS写权限漏洞
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/26/WEB漏洞扫描器/" rel="prev" title="WEB漏洞扫描器">
+                WEB漏洞扫描器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/09/25/HTTP协议/"
+     data-title="HTTP协议"
+     data-content=""
+     data-url="http://yoursite.com/2016/09/25/HTTP协议/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/09/25/HTTP协议/"
+           data-title="HTTP协议" data-url="http://yoursite.com/2016/09/25/HTTP协议/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/nan.gif"
+               alt="SuperDiao" />
+          <p class="site-author-name" itemprop="name">SuperDiao</p>
+          <p class="site-description motion-element" itemprop="description">keep calm and carry on</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/superdiao" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3279716037" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/superdx" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、HTTP请求信息由三部分组成"><span class="nav-number">1.</span> <span class="nav-text">一、HTTP请求信息由三部分组成</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、请求方法URI协议版本"><span class="nav-number">1.1.</span> <span class="nav-text">1、请求方法URI协议版本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、请求头"><span class="nav-number">1.2.</span> <span class="nav-text">2、请求头</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、请求正文"><span class="nav-number">1.3.</span> <span class="nav-text">3、请求正文</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、HTTP响应信息由三部分组成"><span class="nav-number">2.</span> <span class="nav-text">二、HTTP响应信息由三部分组成</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、协议状态版本代码描述"><span class="nav-number">2.1.</span> <span class="nav-text">1、协议状态版本代码描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、响应头-Response-Header"><span class="nav-number">2.2.</span> <span class="nav-text">2、响应头(Response Header)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、响应正文"><span class="nav-number">2.3.</span> <span class="nav-text">3、响应正文</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、HTTP方法："><span class="nav-number">3.</span> <span class="nav-text">三、HTTP方法：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GET方法"><span class="nav-number">3.1.</span> <span class="nav-text">GET方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#POST方法"><span class="nav-number">3.2.</span> <span class="nav-text">POST方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HEAD方法"><span class="nav-number">3.3.</span> <span class="nav-text">HEAD方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TRACE方法"><span class="nav-number">3.4.</span> <span class="nav-text">TRACE方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OPTIONS方法"><span class="nav-number">3.5.</span> <span class="nav-text">OPTIONS方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PUT方法"><span class="nav-number">3.6.</span> <span class="nav-text">PUT方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、URL"><span class="nav-number">4.</span> <span class="nav-text">四、URL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、常用消息头："><span class="nav-number">5.</span> <span class="nav-text">五、常用消息头：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、请求消息头："><span class="nav-number">6.</span> <span class="nav-text">六、请求消息头：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七、响应消息头："><span class="nav-number">7.</span> <span class="nav-text">七、响应消息头：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#八、cookie"><span class="nav-number">8.</span> <span class="nav-text">八、cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#九、状态码"><span class="nav-number">9.</span> <span class="nav-text">九、状态码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#100-Continue"><span class="nav-number">9.1.</span> <span class="nav-text">100 Continue</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#200-Ok"><span class="nav-number">9.2.</span> <span class="nav-text">200 Ok</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#201-Created"><span class="nav-number">9.3.</span> <span class="nav-text">201 Created</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#301-Moved-Permanently"><span class="nav-number">9.4.</span> <span class="nav-text">301 Moved Permanently</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#302-Found。"><span class="nav-number">9.5.</span> <span class="nav-text">302 Found。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#304-Not-Modified。"><span class="nav-number">9.6.</span> <span class="nav-text">304 Not Modified。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#400-Bad-Request。"><span class="nav-number">9.7.</span> <span class="nav-text">400 Bad Request。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#401-Unauthorized。"><span class="nav-number">9.8.</span> <span class="nav-text">401 Unauthorized。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#403-Forbidden。"><span class="nav-number">9.9.</span> <span class="nav-text">403  Forbidden。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#404-Not-Found。"><span class="nav-number">9.10.</span> <span class="nav-text">404 Not Found。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#405-Method-Not-Allowed。"><span class="nav-number">9.11.</span> <span class="nav-text">405 Method Not Allowed。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#413-Request-Entity-Too-Large。"><span class="nav-number">9.12.</span> <span class="nav-text">413 Request Entity Too Large。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#414-Request-URI-Too-Long。"><span class="nav-number">9.13.</span> <span class="nav-text">414 Request URI Too Long。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#500-Internal-Server-Error。"><span class="nav-number">9.14.</span> <span class="nav-text">500 Internal Server Error。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#503-Server-Unavailable。"><span class="nav-number">9.15.</span> <span class="nav-text">503 Server Unavailable。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#十、编码方案"><span class="nav-number">10.</span> <span class="nav-text">十、编码方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ASCII编码："><span class="nav-number">10.1.</span> <span class="nav-text">ASCII编码：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UTF-8编码："><span class="nav-number">10.2.</span> <span class="nav-text">UTF-8编码：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#URL编码："><span class="nav-number">10.3.</span> <span class="nav-text">URL编码：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTML-编码："><span class="nav-number">10.4.</span> <span class="nav-text">HTML 编码：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Base64-编码："><span class="nav-number">10.5.</span> <span class="nav-text">Base64 编码：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#十六进制编码："><span class="nav-number">10.6.</span> <span class="nav-text">十六进制编码：</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SuperDiao</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"superdiao"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js"></script>
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("Y4DRvcdFfo0vM2ibxmuwpc8q-gzGzoHsz", "5725tccldraSXqd6QUaJnLYS");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
